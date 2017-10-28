@@ -1,8 +1,16 @@
 #include <iostream>
+#include "FileReader.h"
+#include "InstructionMem.h"
+#include "DataMem.h"
+#include "Registers.h"
+
+// TODO : Keep adding header file connecting with the first layer.
+
 using namespace std;
 
-int main(){
-
-	cout << "This is a test program for c++ using lunux." << endl;;
+/*  This program runs by creating FileReader to read in the config file and 
+ *  constructing a processor and run it.
+ */
+int main(itn argc, char *argv[]){
 	return 0;
 }
