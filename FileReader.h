@@ -1,3 +1,6 @@
+#ifndef __FILEREADER_H__
+#define __FILEREADER_H__
+
 #include <string> //for receiving input file
 #include <fstream> //for parsing input file
 #include <iostream>
@@ -50,7 +53,9 @@ class FileReader{
         string regf;
         string oputf;        
         bool is_single_step;
-        bool debug;
+        bool is_debug;
         bool print_memory;
         bool write_to_file;
 };
+
+#endif
