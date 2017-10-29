@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# Mac hidden file
+.DS_Strore
