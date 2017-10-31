@@ -9,7 +9,7 @@ CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
 main : $(OBJS)
-    $(CC) $(LFLAGS) $(OBJS) -o main
+	$(CC) $(LFLAGS) $(OBJS) -o main
 
 main.o : main.cpp FileReader.o InstructionMem.o DataMem.o Registers.o Processor.o
 	$(CC) $(CFLAGS) main.cpp
@@ -18,7 +18,7 @@ FileReader.o : FileReader.cpp FileReader.h
 	$(CC) $(CFLAGS) FileReader.cpp
 
 #TODO : Keep adding objects to the dependency of Instruction Memory object
-InstructionMem.o : InstructionMem.cpp InstructionMem.h
+InstructionMem.o : InstructionMem.h InstructionMem.cpp
 	$(CC) $(CFLAGS) InstructionMem.cpp
 
 #TODO : Keep adding objects to the dependency of Instruction Data Memory object
@@ -40,22 +40,22 @@ ProgramCounter.o : ProgramCounter.cpp ProgramCounter.h
 	$(CC) $(CFLAGS) ProgramCounter.cpp
 
 ALU.o: ALU.cpp ALU.h
-	$(CC) $(CCFLAGS) ALU.cpp
+	$(CC) $(CFLAGS) ALU.cpp
 
 Mux.o: Mux.cpp Mux.h
-	$(CC) $(CCFLAGS) Mux.cpp
+	$(CC) $(CFLAGS) Mux.cpp
 
 SLTwo.o : SLTwo.cpp SLTwo.h
-	$(CC) $(CCFLAGS) SLTwo.cpp
+	$(CC) $(CFLAGS) SLTwo.cpp
 
 MainControl.o: MainControl.cpp MainControl.h
-	$(CC) $(CCFLAGS) MainControl.cpp
+	$(CC) $(CFLAGS) MainControl.cpp
 
 SignExtend.o: SignExtend.cpp SignExtend.h
-	$(CC) $(CCFLAGS) SignExtend.cpp
+	$(CC) $(CFLAGS) SignExtend.cpp
 
 ALUControl.o: ALUControl.cpp ALUControl.h
-	$(CC) $(CCFLAGS) ALUControl.cpp
+	$(CC) $(CFLAGS) ALUControl.cpp
 
 clean : 
-	\rm *.o main
+	rm -f *.o main

@@ -11,6 +11,6 @@ using namespace std;
 /*  This program runs by creating FileReader to read in the config file and 
  *  constructing a processor and run it.
  */
-int main(itn argc, char *argv[]){
+int main(int argc, char *argv[]){
 	return 0;
 }

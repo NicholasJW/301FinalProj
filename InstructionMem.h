@@ -1,5 +1,6 @@
 #ifndef __INSTRUCTIONMEM_H__
 #define __INSTRUCTIONMEM_H__
+#include <string>
 
 // TODO include files such as ASMParser and Instruction, details are in lab 5.
 using namespace std;
@@ -10,7 +11,7 @@ using namespace std;
  *
  */
 
-class InstrcutionMem(){
+class InstructionMem{
 public:
 	InstructionMem();
 

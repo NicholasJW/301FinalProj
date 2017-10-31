@@ -4,7 +4,7 @@
 
 using namespace std;
 
-class Registers(){
+class Registers{
 public:
 	Registers();
 };

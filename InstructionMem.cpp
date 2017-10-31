@@ -1,1 +1,5 @@
-#include <InstructionMem.h>
+#include "InstructionMem.h"
+
+InstructionMem::InstructionMem(){
+
+}

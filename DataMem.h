@@ -3,7 +3,7 @@
 
 using namespace std;
 
-class DataMem(){
+class DataMem{
 public:
 	DataMem();
 };
