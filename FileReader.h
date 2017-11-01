@@ -19,6 +19,8 @@ class FileReader{
         // May throw an exception
         FileReader(string filename);
 
+        //Do we need to make a deconstructor to close ifstream?
+
         // Returns a string containing the name of the program_input file
         string getInstructionMem();
 
@@ -48,14 +50,15 @@ class FileReader{
 
     private:
 	  // int MAX_CHARS_PER_LINE;
-        string imem;
-        string dmem;
-        string regf;
-        string oputf;        
-        bool is_single_step;
-        bool is_debug;
-        bool print_memory;
-        bool write_to_file;
+        string   imem;           // program_input
+        string   dmem;           // memory_contents_input
+        string   regf;           // register_file_input
+        string   oputf;          // output_file        
+        bool     is_single_step; // output_mode
+        bool     is_debug;       // debug_mode
+        bool     print_memory;   // print_memory_contents
+        bool     write_to_file;  // write_to_file
+        fstream  configFile;     // the filestream to read the config
 };
 
 #endif
