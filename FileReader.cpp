@@ -27,7 +27,7 @@ FileReader::FileReader(string filename){                       // Create the fst
     while(true){                                               // Run loop until it is broken
         getline(ifs, line);                                    // Get the next line and store it
         if(!ifs.eof() && (line[0] == '#' || line[0] == '\0')){ // If the line is a comment or whitespace
-            //do nothing
+            //do nothing (loop again)
         }else if(!ifs.eof()){                                  // If the line isn't an eof...
             strncpy(env, line.c_str(), line.length());         // Get a char* from the getline
             env[line.length()] = '\0';                         // Append a null terminator
