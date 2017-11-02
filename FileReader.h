@@ -2,7 +2,7 @@
 #define __FILEREADER_H__
 
 #include <string> //for receiving input file
-#include <fstream> //for parsing input file
+//#include <fstream> //for parsing input file
 #include <iostream>
 #include <stdexcept> 
 
@@ -58,7 +58,7 @@ class FileReader{
         bool     is_debug;       // debug_mode
         bool     print_memory;   // print_memory_contents
         bool     write_to_file;  // write_to_file
-        fstream  configFile;     // the filestream to read the config
+        //ifstream  configFile;    // the filestream to read the config
 };
 
 #endif

@@ -1,33 +1,39 @@
 #include "FileReader.h"
-#include <cstdlib>                       // For putenv()
+#include <cstdlib>                                     // For putenv()
+#include <fstream>                                     // For parsing input file
+#include <cstring>
 
-FileReader::FileReader(string filename){ // Create the fstream with the target file
+FileReader::FileReader(string filename){               // Create the fstream with the target file
     
+    ifstream ifs;
+
 // OPEN FSTREAM
 //===============================================================================================//
-    try{                                 // Try to open fstream with the file
-        configFile.open(filename);
-    }catch(...){                         // Catch any error...
-        throw;                           // Throw
+    try{                                               // Try to open fstream with the file
+        ifs.open(filename);
+    }catch(...){                                       // Catch any error...
+        throw;                                         // Throw
     }
 //===============================================================================================//
 
 // SET ENVIRONMENT VARIABLES
 //===============================================================================================//
-    string line;                         // Declare the string for holding lines
+    string line;                                       // Declare the string for holding lines
+    char* env;
 
-    while(true){                         // Run loop until it is broken
-        line = configFile.getline();     // Get the next line and store it
-        if(line[0] == '#'){              // If the line is a comment...
+    while(true){                                       // Run loop until it is broken
+        getline(ifs, line);                            // Get the next line and store it
+        if(line[0] == '#'){                            // If the line is a comment...
             //do nothing
-        }else if(line.eof() != true)     // If the line isn't an eof...
+        }else if(!ifs.eof())                           // If the line isn't an eof...
         {
-            putenv(line);                // Use putenv to set the variable
-        }else{                           // Else...
-            break;                       // Break the loop (Finish reading the file)
+            strncpy(env, line.c_str(), line.length()); // Get a char* from the getline
+            putenv(env);                               // Use putenv to set the variable
+        }else{                                         // Else...
+            break;                                     // Break the loop (Finish reading the file)
         }
     }
 //===============================================================================================//
 
-    configFile.close();                  // Close the fstream
+    ifs.close();                                       // Close the fstream
 }
