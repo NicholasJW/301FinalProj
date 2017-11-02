@@ -48,17 +48,16 @@ class FileReader{
         bool writeToFile();
 
 
-    private:
-	  // int MAX_CHARS_PER_LINE;
-        string   imem;           // program_input
-        string   dmem;           // memory_contents_input
-        string   regf;           // register_file_input
-        string   oputf;          // output_file        
-        bool     is_single_step; // output_mode
-        bool     is_debug;       // debug_mode
-        bool     print_memory;   // print_memory_contents
-        bool     write_to_file;  // write_to_file
-        //ifstream  configFile;    // the filestream to read the config
+    // private:
+	//   // int MAX_CHARS_PER_LINE;
+    //     string   imem;           // program_input
+    //     string   dmem;           // memory_contents_input
+    //     string   regf;           // register_file_input
+    //     string   oputf;          // output_file        
+    //     bool     is_single_step; // output_mode
+    //     bool     is_debug;       // debug_mode
+    //     bool     print_memory;   // print_memory_contents
+    //     bool     write_to_file;  // write_to_file
 };
 
 #endif
