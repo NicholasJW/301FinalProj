@@ -12,5 +12,8 @@ using namespace std;
  *  constructing a processor and run it.
  */
 int main(int argc, char *argv[]){
+
+	// Debugging makefile
+	// cout << "Makefile works fine!" << endl;
 	return 0;
 }
