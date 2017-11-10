@@ -36,7 +36,6 @@ private:
 
 	string remove0x(string str);
 
-	
 };
 
 #endif
