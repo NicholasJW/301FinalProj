@@ -23,12 +23,14 @@ void DataMem::readFile(string fileName){
 			line = line.substr(2, length-2);
 		}
 		if(line.substr(9, 2) == "0x"){
-			int length = line.size();
+			// int length = line.size();
 			line = line.substr(0, 9) + line.substr(11, 8);
 		}
 
 		address = line.substr(0,8);
+		std::transform(address.begin(), address.end(), address.begin(), ::tolower);
 		content = line.substr(9,8);
+		std::transform(content.begin(), content.end(), content.begin(), ::tolower);
 
 
 		// cout<<address<<":"<<content<<endl;
@@ -40,6 +42,7 @@ void DataMem::readFile(string fileName){
 
 string DataMem::read(string address){
 	address = remove0x(address);
+	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
 	if(data.count(address) == 1){
 		return data.at(address);
 	}else{
@@ -49,7 +52,9 @@ string DataMem::read(string address){
 
 void DataMem::write(string address, string content){
 	address = remove0x(address);
+	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
 	content = remove0x(content);
+	std::transform(content.begin(), content.end(), content.begin(), ::tolower);
 	if (data.count(address) == 0){
 		data.insert(std::pair<string, string>(address, content));
 	} else {
@@ -78,3 +83,10 @@ string DataMem::remove0x(string str){
 	}
 	return str;
 }
+
+// Testing
+// int main(int argc, char *argv[]){
+// 	string s = "AsaaJSDaa";
+// 	std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+// 	cout<<s<<endl;
+// }

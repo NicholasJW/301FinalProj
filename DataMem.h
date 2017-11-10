@@ -5,11 +5,13 @@
 #include <fstream>
 #include <map>
 #include <iostream>
+#include <algorithm> // To convert string to all lower case
 
 using namespace std;
 
 class DataMem{
 public:
+	// Default constructor
 	DataMem();
 
 	// Constructor that takes a file name as input and construct the DataMem 
@@ -23,6 +25,7 @@ public:
 
 	// Print out the whole data memory
 	void print();
+
 private:
 	// string fileName;
 
@@ -32,6 +35,8 @@ private:
 	void readFile(string filename);
 
 	string remove0x(string str);
+
+	
 };
 
 #endif
