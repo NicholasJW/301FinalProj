@@ -34,3 +34,6 @@
 # Mac hidden file
 .DS_Strore
 \.vscode/
+
+# Visual Studio Workspace files
+*.code-workspace
