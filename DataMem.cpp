@@ -18,6 +18,11 @@ void DataMem::readFile(string fileName){
 		getline(infile, line);
 		// Testing infile (Successful!!)
 		// cout<<line.substr(0, 8)<<endl;
+		//Check if this is an empty line
+		if(line.size()<2){
+			continue;
+		}
+
 		if(line.substr(0, 2) == "0x"){
 			int length = line.size();
 			line = line.substr(2, length-2);

@@ -3,12 +3,12 @@
 using namespace std;
 
 int main(){
-	DataMem testMem("data1.memory");
+	DataMem testMem("../sample_inputs/data1.memory");
 	// testMem = new DataMem("data1.memory");
 	testMem.write("10000044", "00000000");
 	// testMem.print();
 	cout<<testMem.read("10000044")<<endl;
-	cout<<testMem.read("10000164")<<endl;
+	//cout<<testMem.read("10000164")<<endl;
 	// testMem.read("10101010");
 
 	cout<<"====================="<<endl;
