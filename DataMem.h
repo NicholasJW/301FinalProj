@@ -34,6 +34,7 @@ private:
 
 	void readFile(string filename);
 
+	// Private helper method to remove (possible) 0x before hex
 	string remove0x(string str);
 
 };

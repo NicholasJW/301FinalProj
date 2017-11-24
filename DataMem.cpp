@@ -4,6 +4,43 @@ DataMem::DataMem(){
 
 }
 
+string DataMem::read(string address){
+	address = remove0x(address);
+	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
+	if(data.count(address) == 1){
+		return data.at(address);
+	}else{
+		throw invalid_argument("memory_not_found");
+	}
+}
+
+void DataMem::write(string address, string content){
+	address = remove0x(address);
+	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
+	content = remove0x(content);
+	std::transform(content.begin(), content.end(), content.begin(), ::tolower);
+	if (data.count(address) == 0){
+		data.insert(std::pair<string, string>(address, content));
+	} else {
+		data.at(address) = content;
+	}
+	
+}
+
+
+void DataMem::print(){
+	map<string, string>::iterator it = data.begin();
+	string printLine;
+	while(it!=data.end()){
+		// if(it->first == ""){
+			// break;
+		// }
+		printLine = it->first + ":" + it->second;
+		cout<<printLine<<endl;
+		it++;
+	}
+}
+
 void DataMem::readFile(string fileName){
 	ifstream infile;
 	infile.open(fileName.c_str());
@@ -42,44 +79,6 @@ void DataMem::readFile(string fileName){
 		write(address, content);
 	}
 	infile.close();
-
-}
-
-string DataMem::read(string address){
-	address = remove0x(address);
-	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
-	if(data.count(address) == 1){
-		return data.at(address);
-	}else{
-		throw invalid_argument("memory_not_found");
-	}
-}
-
-void DataMem::write(string address, string content){
-	address = remove0x(address);
-	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
-	content = remove0x(content);
-	std::transform(content.begin(), content.end(), content.begin(), ::tolower);
-	if (data.count(address) == 0){
-		data.insert(std::pair<string, string>(address, content));
-	} else {
-		data.at(address) = content;
-	}
-	
-}
-
-
-void DataMem::print(){
-	map<string, string>::iterator it = data.begin();
-	string printLine;
-	while(it!=data.end()){
-		// if(it->first == ""){
-			// break;
-		// }
-		printLine = it->first + ":" + it->second;
-		cout<<printLine<<endl;
-		it++;
-	}
 }
 
 string DataMem::remove0x(string str){
