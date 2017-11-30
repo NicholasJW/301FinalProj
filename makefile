@@ -1,9 +1,9 @@
 #this is a makefile
 
 #TODO : Keep adding objects to this macro
-OBJS = FileReader.o main.o InstructionMem.o DataMem.o Registers.o FileWriter.o ProgramCounter.o ALU.o Mux.o SLTwo.o MainControl.o SignExtend.o ALUControl.o
+OBJS = FileReader.o main.o InstructionMem.o DataMem.o Registers.o ControlLine.o ProgramCounter.o ALU.o MUX.o SLTwo.o MainControl.o SignExtend.o ALUControl.o
 
-CC = g++
+CC = g++ -std=c++11
 DEBUG = -g
 CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
@@ -21,29 +21,27 @@ FileReader.o : FileReader.cpp FileReader.h
 InstructionMem.o : InstructionMem.h InstructionMem.cpp
 	$(CC) $(CFLAGS) InstructionMem.cpp
 
-#TODO : Keep adding objects to the dependency of Instruction Data Memory object
 DataMem.o : DataMem.cpp DataMem.h
 	$(CC) $(CFLAGS) DataMem.cpp
 
-#TODO : Keep adding objects to the dependency of Instruction Registers object
 Registers.o : Registers.cpp Registers.h
 	$(CC) $(CFLAGS) Registers.cpp
 
 #TODO : Keep adding objects to the dependency of Processor object
-Processor.o : Processor.cpp Processor.h InstructionMem.o DataMem.o Registers.o FileWriter.o ProgramCounter.o ALU.o Mux.o SLTwo.o MainControl.o SignExtend.o ALUControl.o
+Processor.o : Processor.cpp Processor.h InstructionMem.o DataMem.o Registers.o ControlLine.o ProgramCounter.o ALU.o MUX.o SLTwo.o MainControl.o SignExtend.o ALUControl.o
 	$(CC) $(CFLAGS) Processor.cpp
 
-FileWriter.o : FileWriter.cpp FileWriter.h
-	$(CC) $(CFLAGS) FileWriter.cpp
+ControlLine.o : ControlLine.cpp ControlLine.h
+	$(CC) $(CFLAGS) ControlLine.cpp
 
 ProgramCounter.o : ProgramCounter.cpp ProgramCounter.h
 	$(CC) $(CFLAGS) ProgramCounter.cpp
 
-ALU.o: ALU.cpp ALU.h
+ALU.o : ALU.cpp ALU.h
 	$(CC) $(CFLAGS) ALU.cpp
 
-Mux.o: Mux.cpp Mux.h
-	$(CC) $(CFLAGS) Mux.cpp
+MUX.o : MUX.cpp MUX.h
+	$(CC) $(CFLAGS) MUX.cpp
 
 SLTwo.o : SLTwo.cpp SLTwo.h
 	$(CC) $(CFLAGS) SLTwo.cpp

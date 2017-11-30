@@ -2,6 +2,7 @@
 #define __MAINCONTROL_H__
 
 class MainControl{
+public:
 	MainControl();
 };
 #endif

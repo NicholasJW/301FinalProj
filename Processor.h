@@ -1,6 +1,11 @@
 #ifndef __PROCESSOR_H__
 #define __PROCESSOR_H__
 
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream> 		// std::stringstream
+#include <fstream>		// std::ofstream
+
 #include "InstructionMem.h"
 #include "DataMem.h"
 #include "Registers.h"
@@ -18,17 +23,21 @@
 using namespace std;
 class Processor{
 public:
-	Processor(InstructionMem iMem, DataMem dMem, Registers registers);
+	Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers);
 
 	// The method to run the object by knowing the information in the prantecies.
 	void run(bool is_single_step, bool is_debug, bool print_memory, bool write_to_file);
+
 private:
 	// I/o and memmory
-	InstructionMem iMem;
-	DataMem dMem;
-	Registers registers;
-	FileWriter fileWriter;
+	InstructionMem imem;
+	DataMem dmem;
+	Registers regs;
+	// Think about this, do we really need a file writer?
+	// FileWriter fileWriter;
 
+	stringstream ss;
+	ofstream ofs;
 	// functional units
 	ProgramCounter pc;
 	ALU alu1; //Has only add
@@ -44,6 +53,8 @@ private:
 	MainControl mc;
 	ALUControl ac;
 	SignExtend se;
+
+	void printOut(bool write_to_file, string output_file);
 
 };
 #endif

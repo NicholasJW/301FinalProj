@@ -23,7 +23,7 @@ void Registers::set(int num, string value){
 }
 
 void Registers::print(){
-    for(int i=0; i<(sizeof(regs)/sizeof(*regs)); i++){
+    for(std::size_t i=0; i<(sizeof(regs)/sizeof(*regs)); i++){
         cout << i << ":" + regs[i] << endl;
     }
 
