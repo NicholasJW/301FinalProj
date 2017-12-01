@@ -9,8 +9,9 @@
 #include "InstructionMem.h"
 #include "DataMem.h"
 #include "Registers.h"
-#include "FileWriter.h"
+// #include "FileWriter.h"
 
+#include "ControlLine.h"
 #include "ProgramCounter.h"
 #include "ALU.h"
 #include "MUX.h"
@@ -29,6 +30,7 @@ public:
 	void run(bool is_single_step, bool is_debug, bool print_memory, bool write_to_file);
 
 private:
+
 	// I/o and memmory
 	InstructionMem imem;
 	DataMem dmem;
@@ -36,7 +38,23 @@ private:
 	// Think about this, do we really need a file writer?
 	// FileWriter fileWriter;
 
+	ControlLine regDst;
+	ControlLine jump;
+	ControlLine memRead;
+	ControlLine memtoReg;
+	// This line has lengh 2
+	ControlLine ALUOp;
+	ControlLine memWrite;
+	ControlLine ALUSrc;
+	ControlLine regWrite;
+	// This line is the 4-digit line from ALUControl to ALU, lenght 4.
+	ControlLine ALUline;
+	// This line is the zero line from ALU for branching
+	ControlLine zeroLine;
+
+	// To build the string to print or write to file
 	stringstream ss;
+	// open the output file if needed
 	ofstream ofs;
 	// functional units
 	ProgramCounter pc;
@@ -54,6 +72,11 @@ private:
 	ALUControl ac;
 	SignExtend se;
 
+
+
+	void initializeLines();
+
+	// Write to file or cout
 	void printOut(bool write_to_file, string output_file);
 
 };

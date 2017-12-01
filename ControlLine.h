@@ -14,6 +14,9 @@ public:
     // Set the value to specified string, must be represented by a Hex number starting with "0x"
     void setValue(string _value){value = _value;};
 
+    string getValue(){return value;};
+    string getName(){return name;};
+
     //Print out the name and the value of this control line 
     string toString();
 private:
