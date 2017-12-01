@@ -15,13 +15,25 @@ Processor::Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers, 
 void Processor::run(){
     
     initializeLines();
-    int insNum = 0; //Indicating which instruction we are running
-    while(insNum < imem.getSize()){
+    int insNum = 1; //Indicating which instruction we are running
+    int currentInsAddress = pc.getCurrentAddress();
+    string currentIns;
+    while(imem.hasIns(currentInsAddress)){
+        currentIns = imem.getIns(currentInsAddress);
+
+        // Some printing jobs
+        ss << "\n============================\n\n\n";
+        // For debugging 
+        cout << currentIns << endl;
+        ss << std::to_string(insNum) << " : " << imem.getInsMips(currentInsAddress) << '\n';
+
         if (print_memory){
             ss << imem.toString();
             ss << dmem.toString();
             ss << regs.toString();
         }
+
+
         printOut();
 
         // Debugging counter
@@ -30,6 +42,9 @@ void Processor::run(){
         if(is_single_step){
             cin.get();
         }
+
+        currentInsAddress += 4;
+        insNum ++;
     }
     ofs.close();
      
@@ -61,7 +76,7 @@ void Processor::printOut(){
         }
         ofs << ss.str();
         // TODO: As follow!!!
-        cout << "This line will be replaced be a instruction in InsMem." << endl;
+        // cout << "This line will be replaced be a instruction in InsMem." << endl;
     }else{
         cout<<ss.str()<<endl;
     }

@@ -31,6 +31,13 @@ InstructionMem::InstructionMem(string program_input){
     delete parser;
 }
 
+bool InstructionMem::hasIns(int insAddress){
+    if(ins.count(insAddress)){
+        return true;
+    }
+    return false;
+}
+
 string InstructionMem::toString(){
     string s = "\n\n======================================\n";
     s += "Instruction Memmory:\n\n";
@@ -45,7 +52,7 @@ string InstructionMem::toString(){
         s += ss.str();
         s += " : ";
         s += it->second;
-        s += ' (';
+        s += " (";
         s += insMips.at(address);
         s += ')';
         s += "\n";

@@ -28,6 +28,8 @@ public:
 
 	string getInsMips(int insAddress){return insMips.at(insAddress);};
 
+	bool hasIns(int insAddress);
+
 	// Function to print out the whole content of instruction memory
 	string toString();
 
