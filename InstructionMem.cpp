@@ -44,9 +44,10 @@ string InstructionMem::toString(){
         s += "0x";
         s += ss.str();
         s += " : ";
-        s += insMips.at(address);
-        s += " : ";
         s += it->second;
+        s += ' (';
+        s += insMips.at(address);
+        s += ')';
         s += "\n";
         ss.clear();
         ss.str("");

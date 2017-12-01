@@ -26,10 +26,10 @@ class Processor{
 public:
 	Processor(){};
 
-	Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers);
+	Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers, bool _is_single_step, bool _is_debug, bool _print_memory, bool _write_to_file, string _output_file);
 
 	// The method to run the object by knowing the information in the prantecies.
-	void run(bool is_single_step, bool is_debug, bool print_memory, bool write_to_file, string output_file);
+	void run();
 
 private:
 
@@ -37,6 +37,11 @@ private:
 	InstructionMem imem;
 	DataMem dmem;
 	Registers regs;
+	bool is_single_step = false;
+	bool is_debug = false;
+	bool print_memory = false;
+	bool write_to_file = false;
+	string output_file;
 	// Think about this, do we really need a file writer?
 	// FileWriter fileWriter;
 
@@ -79,7 +84,7 @@ private:
 	void initializeLines();
 
 	// Write to file or cout
-	void printOut(bool write_to_file, string output_file);
+	void printOut();
 
 };
 #endif

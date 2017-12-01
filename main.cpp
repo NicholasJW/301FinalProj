@@ -22,9 +22,10 @@ int main(int argc, char *argv[]){
 	DataMem dmem(fr->getDataMem());
 	Registers regs(fr->getRegFile());
 	// Debugging
-	cout << imem.toString() << dmem.toString() << regs.toString();
-	Processor p(imem, dmem, regs);
-	// p.run(true, true, true, true, "hahahah");
+	// cout << imem.toString() << dmem.toString() << regs.toString();
+	Processor p(imem, dmem, regs, fr->getOutMode(), fr->getDebugMode(), fr->getPrintMem(), fr->writeToFile(), fr->getOutFile());
+	p.run();
+
 
 	delete fr;
 	return 0;
