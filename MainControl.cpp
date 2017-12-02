@@ -3,7 +3,7 @@
 MainControl::MainControl(){
     signals.resize(9);
     for(int i=0; i<9;i++){
-        signals[i] = "666";
+        signals[i] = "0x0";
     }
 }
 

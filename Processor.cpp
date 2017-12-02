@@ -33,7 +33,23 @@ void Processor::run(){
         mc.setOpcode(currentIns.substr(0,6));
         setMainSignals(mc.getControlSignals());
         // Mux 1:
-        
+        mux1.setInput0(currentIns.substr(11,5));
+        // cout << "CHECK HERE " <<currentIns.substr(11,5);
+        mux1.setInput1(currentIns.substr(16,5));
+        mux1.compute(stoi(regDst.getValue().substr(2)));
+        // Read from register memory:
+        regs.setRead(std::stoi(currentIns.substr(6,5), nullptr, 2), std::stoi(currentIns.substr(11,5), nullptr, 2));
+        regs.read();
+        // Sign extend
+        se.setInput(currentIns.substr(16));
+        se.compute();
+
+        // Writing back to Registers
+        // Debugging DELETE!!!!!!!
+        // regWrite.setValue("0x1");
+        regs.setSignal(regWrite.getValue());
+        regs.setWrite(std::stoi(mux1.outputs(), nullptr, 2), mux3.outputs());
+        regs.write();
 
         // Some printing jobs
         ss << "\n============================\n\n";
@@ -113,6 +129,9 @@ void Processor::unitOutput(){
     ss << "Instruction Memory:\n" << "Input (instruction address): "<< imem.inputs() << '\n' << "Output (Binary instruction): "<< imem.outputs() << "\n\n";
     ss << "ALU 1:\n" << "Inputs: \n"<< alu1.inputs() << "Output: \n"<< alu1.outputs() << "\n";
     ss << "Shift left two 1:\n" << "Input : "<< slt1.inputs() << '\n' << "Output: "<< slt1.outputs() << "\n\n";
+    ss << "Mux 1:\n" << mux1.inputs() << '\n' << "Output: "<< mux1.outputs() << "\n\n";
+    ss << "Registers memory: \n" << regs.inputs() << '\n' << regs.outputs() << "\n\n";
+    ss << "Sign Extend unit: \n" << "Input: " << se.inputs() << '\n' << "Output: " << se.outputs() << "\n\n";
 
 }
 

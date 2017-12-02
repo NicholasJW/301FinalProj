@@ -2,6 +2,7 @@
 #define __REGISTERS_H__
 
 #include <string>
+#include <sstream>
 #include <fstream>
 #include <map>
 #include <iostream>
@@ -18,16 +19,43 @@ public:
 	// Constructor that takes a file name as input and construct the Registers
 	Registers(string register_file_input){readFile(register_file_input);};
 
-	string get(int num);
+	// Reading process
+	void setRead(int reg1, int reg2){readReg1 = reg1; readReg2 = reg2;};
+	void read();
+	string getRead1(){return readData1;};
+	string getRead2(){return readData2;};
 
-	void set(int num, string value);
+	// Writing process
+	void setSignal(string _regWrite){regWrite = _regWrite;};
+	void setWrite(int reg, string data){writeReg = reg; writeData = data;};
+	void write();
+
+	// Presenting inputs
+	string inputs();
+	// Presenting output
+	string outputs();
 
 	// Print out the registers
 	string toString();
 
 private:
+	// All inputs
+	int readReg1 = -1;
+	int readReg2 = -1;
+	int writeReg = -1;
+	string writeData;
+	// Control signals
+	string regWrite;
+	// All outputs
+	string readData1;
+	string readData2;
 	// Hashmap to represent the registers
 	string regs[32];
+
+	// These two should go into private but for the testing sake, i just leave them here for now
+	string get(int num);
+
+	void set(int num, string value);
 
 	// Initialize registers from a file
 	void readFile(string filename);

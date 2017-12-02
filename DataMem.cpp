@@ -62,12 +62,12 @@ void DataMem::readFile(string fileName){
 		}
 
 		if(line.substr(0, 2) == "0x"){
-			int length = line.size();
-			line = line.substr(2, length-2);
+			// int length = line.size();
+			line = line.substr(2);
 		}
 		if(line.substr(9, 2) == "0x"){
 			// int length = line.size();
-			line = line.substr(0, 9) + line.substr(11, 8);
+			line = line.substr(0, 9) + line.substr(11);
 		}
 
 		address = line.substr(0,8);
@@ -83,8 +83,8 @@ void DataMem::readFile(string fileName){
 }
 
 string DataMem::remove0x(string str){
-	if (str.size() == 10){
-		str = str.substr(2, 8);
+	if (str.substr(0,2) == "0x"){
+		str = str.substr(2);
 	}
 	return str;
 }

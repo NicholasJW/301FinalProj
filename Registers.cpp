@@ -4,6 +4,42 @@ Registers::Registers(){
 
 }
 
+void Registers::read(){
+    if (readReg1 > -1 && readReg1 < 32){
+        readData1 = get(readReg1);
+    }
+    if (readReg2 > -1 && readReg2 < 32){
+        readData2 = get(readReg2);
+    }
+}
+
+void Registers::write(){
+    if (regWrite == "0x1"){
+        if (writeReg > -1 && writeReg < 32){
+            set(writeReg, writeData);
+        }
+    }
+}
+
+string Registers::inputs(){
+    stringstream ss;
+    ss << "Inputs: ";
+    ss << "\nFirst read register: $" << std::to_string(readReg1);
+    ss << "\nSecond read register: $" << std::to_string(readReg2);
+    ss << "\nWrite register: $" << std::to_string(writeReg);
+    ss << "\nWrite data: " << writeData;
+    ss << "\nControl signal (regWrite): " << regWrite;
+    return ss.str();
+}
+
+string Registers::outputs(){
+    stringstream ss;
+    ss << "Outputs: ";
+    ss << "\nFirst reading data: " << "0x" << readData1;
+    ss << "\nSecond reading data: " << "0x" << readData2;
+    return ss.str();
+}
+
 string Registers::get(int num){
     if(num>-1 || num<32){
         return regs[num];
@@ -66,8 +102,8 @@ void Registers::readFile(string fileName){
 } 
 
 string Registers::remove0x(string str){
-	if (str.size() == 10){
-		str = str.substr(2, 8);
+	if (str.substr(0, 2) == "0x"){
+		str = str.substr(2);
 	}
 	return str;
 }
