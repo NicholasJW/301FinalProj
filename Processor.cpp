@@ -19,8 +19,21 @@ void Processor::run(){
     int currentInsAddress = pc.getCurrentAddress();
     string currentIns;
     while(imem.hasIns(currentInsAddress)){
+        // Get current instruction address
         currentInsAddress = pc.getCurrentAddress();
+        // ALU 1
+        alu1.setInputs(currentInsAddress, 4);
+        alu1.calculate();
+        // Instruction memory
         currentIns = imem.getIns(currentInsAddress);
+        // SLTwo 1:
+        slt1.setInput(currentIns.substr(6));
+        slt1.compute();
+        // Get control signals from main control
+        mc.setOpcode(currentIns.substr(0,6));
+        setMainSignals(mc.getControlSignals());
+        // Mux 1:
+        
 
         // Some printing jobs
         ss << "\n============================\n\n";
@@ -65,6 +78,18 @@ void Processor::initializeLines(){
     zeroLine.setName("zeroLine");
 }
 
+void Processor::setMainSignals(vector<string> list){
+    regDst.setValue(list.at(0));
+    jump.setValue(list.at(1));
+    memRead.setValue(list.at(2));
+    memtoReg.setValue(list.at(3));
+    ALUOp1.setValue(list.at(4));
+    ALUOp2.setValue(list.at(5));
+    memWrite.setValue(list.at(6));
+    ALUSrc.setValue(list.at(7));
+    regWrite.setValue(list.at(8));
+}
+
 void Processor::linesOutput(){
     ss << "\n==========================\n";
     ss << "value of all control lines:\n";
@@ -83,9 +108,11 @@ void Processor::linesOutput(){
 
 void Processor::unitOutput(){
     ss << "==========================\n";
-    ss << "Input and output of all units:\n";
+    ss << "Input and output of all units:\n\n";
     ss << "ProgramCounter :\n" << "Input (instruction address): "<< pc.inputs() << '\n' << "Output (instruction address): "<< pc.outputs() << "\n\n";
     ss << "Instruction Memory:\n" << "Input (instruction address): "<< imem.inputs() << '\n' << "Output (Binary instruction): "<< imem.outputs() << "\n\n";
+    ss << "ALU 1:\n" << "Inputs: \n"<< alu1.inputs() << "Output: \n"<< alu1.outputs() << "\n";
+    ss << "Shift left two 1:\n" << "Input : "<< slt1.inputs() << '\n' << "Output: "<< slt1.outputs() << "\n\n";
 
 }
 

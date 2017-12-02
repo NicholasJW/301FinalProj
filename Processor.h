@@ -80,12 +80,15 @@ private:
 	SignExtend se;
 
 
-
+	// Set names for control lines.
 	void initializeLines();
+	// Set first 9 signals( for the main control )
+	void setMainSignals(vector<string> list);
 
 	// Write to file or cout
 	void printOut();
 
+	// Methods to update stringstream with different output
 	void linesOutput();
 	void unitOutput();
 	void dataOutput();
