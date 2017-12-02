@@ -24,16 +24,21 @@ public:
 
 	int getSize(){return ins.size();};
 
-	string getIns(int insAddress){return ins.at(insAddress);};
+	string getIns(int insAddress);
 
-	string getInsMips(int insAddress){return insMips.at(insAddress);};
+	string getInsMips(int insAddress);
 
 	bool hasIns(int insAddress);
+
+	string inputs();
+	string outputs(){return currentOut;};
 
 	// Function to print out the whole content of instruction memory
 	string toString();
 
 private:
+	int currentIn;
+	string currentOut;
 	// Need a data structure here to strore all the address and instructions, not sure yet, 
 	// Let's use HashMap
 	// This is for binary

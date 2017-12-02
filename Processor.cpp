@@ -19,20 +19,21 @@ void Processor::run(){
     int currentInsAddress = pc.getCurrentAddress();
     string currentIns;
     while(imem.hasIns(currentInsAddress)){
+        currentInsAddress = pc.getCurrentAddress();
         currentIns = imem.getIns(currentInsAddress);
 
         // Some printing jobs
-        ss << "\n============================\n\n\n";
+        ss << "\n============================\n\n";
         // For debugging 
         // cout << currentIns << endl;
         ss << std::to_string(insNum) << " : " << imem.getInsMips(currentInsAddress) << '\n' << currentIns << '\n';
 
+        // Appending all the outputs
+        linesOutput();
+        unitOutput();
         if (print_memory){
-            ss << imem.toString();
-            ss << dmem.toString();
-            ss << regs.toString();
+            dataOutput();
         }
-
 
         printOut();
 
@@ -45,6 +46,7 @@ void Processor::run(){
 
         currentInsAddress += 4;
     }
+
     ofs.close();
      
 }
@@ -61,6 +63,38 @@ void Processor::initializeLines(){
     regWrite.setName("regWrite");
     ALUline.setName("ALUline");
     zeroLine.setName("zeroLine");
+}
+
+void Processor::linesOutput(){
+    ss << "\n==========================\n";
+    ss << "value of all control lines:\n";
+    ss << regDst.getName() << " : " << regDst.getValue() << '\n';
+    ss << jump.getName() << " : " << jump.getValue() << '\n';
+    ss << memRead.getName() << " : " << memRead.getValue() << '\n';
+    ss << memtoReg.getName() << " : " << memtoReg.getValue() << '\n';
+    ss << ALUOp1.getName() << " : " << ALUOp1.getValue() << '\n';
+    ss << ALUOp2.getName() << " : " << ALUOp2.getValue() << '\n';
+    ss << memWrite.getName() << " : " << memWrite.getValue() << '\n';
+    ss << ALUSrc.getName() << " : " << ALUSrc.getValue() << '\n';
+    ss << regWrite.getName() << " : " << regWrite.getValue() << '\n';
+    ss << ALUline.getName() << " : " << ALUline.getValue() << '\n';
+    ss << zeroLine.getName() << " : " << zeroLine.getValue() << "\n\n";
+}
+
+void Processor::unitOutput(){
+    ss << "==========================\n";
+    ss << "Input and output of all units:\n";
+    ss << "ProgramCounter :\n" << "Input (instruction address): "<< pc.inputs() << '\n' << "Output (instruction address): "<< pc.outputs() << "\n\n";
+    ss << "Instruction Memory:\n" << "Input (instruction address): "<< imem.inputs() << '\n' << "Output (Binary instruction): "<< imem.outputs() << "\n\n";
+
+}
+
+void Processor::dataOutput(){
+    ss << "==========================\n";
+    ss << "All memory content:\n";
+    ss << imem.toString();
+    ss << dmem.toString();
+    ss << regs.toString();
 }
 
 void Processor::printOut(){

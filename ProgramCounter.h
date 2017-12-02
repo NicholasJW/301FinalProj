@@ -1,6 +1,7 @@
 #ifndef __PROGRAMCOUNTER_H__
 #define __PROGRAMCOUNTER_H__
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -13,8 +14,13 @@ public:
 
 	void setCurrentAddress(int _cr){cr = _cr;};
 
+	string inputs();
+
+	string outputs();
+
 private:
 
+	std::stringstream toHex;
 	int cr;
 
 };

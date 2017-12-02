@@ -30,12 +30,27 @@ InstructionMem::InstructionMem(string program_input){
     
     delete parser;
 }
+string InstructionMem::getIns(int insAddress){
+    currentIn = insAddress;
+    currentOut = ins.at(insAddress);
+    return currentOut;
+}
+
+string InstructionMem::getInsMips(int insAddress){
+    return insMips.at(insAddress);
+}
 
 bool InstructionMem::hasIns(int insAddress){
     if(ins.count(insAddress)){
         return true;
     }
     return false;
+}
+
+string InstructionMem::inputs(){
+    stringstream toHex;
+    toHex << std::hex << currentIn;
+    return "0x" + toHex.str();
 }
 
 string InstructionMem::toString(){

@@ -6,7 +6,7 @@ using namespace std;
 class ControlLine{
 public:
     // Default constructor, set the value to 0x0, name to "control_line", length to -1
-    ControlLine(){};
+    ControlLine(){value = "-1";};
 
     // Set the name of this cl.
     void setName(string _name){name = _name;};

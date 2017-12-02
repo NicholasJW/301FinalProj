@@ -86,5 +86,9 @@ private:
 	// Write to file or cout
 	void printOut();
 
+	void linesOutput();
+	void unitOutput();
+	void dataOutput();
+
 };
 #endif
