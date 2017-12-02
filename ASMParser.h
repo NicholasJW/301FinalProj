@@ -1,8 +1,6 @@
 #ifndef __ASMPARSER_H__
 #define __ASMPARSER_H__
 
-using namespace std;
-
 #include <iostream>
 #include <fstream>
 #include "Instruction.h"
@@ -31,8 +29,8 @@ class ASMParser{
 
   // Iterator that returns the next Instruction in the list of Instructions.
   Instruction getNextInstruction();
+
  private:
-  
   vector<Instruction> myInstructions;      // list of Instructions
   int myIndex;                             // iterator index
   bool myFormatCorrect;
@@ -50,12 +48,22 @@ class ASMParser{
   bool getOperands(Instruction &i, Opcode o, string *operand, int operand_count);
 
 
-  // Helper functions
+   // Returns true if character is white space
   bool isWhitespace(char c)    { return (c == ' '|| c == '\t'); };
+
+  // Returns true if character is a digit
   bool isDigit(char c)         { return (c >= '0' && c <= '9'); };
+
+  // Returns true if character is an uppercase letter
   bool isAlphaUpper(char c)    { return (c >= 'A' && c <= 'Z'); };
+
+  // Returns true if character is a lowercase letter
   bool isAlphaLower(char c)    { return (c >= 'a' && c <= 'z'); };
+
+  // Returns true if character is a plus or minus
   bool isSign(char c)          { return (c == '-' || c == '+'); };
+
+  // Returns true if character is an alphabetic character
   bool isAlpha(char c)         {return (isAlphaUpper(c) || isAlphaLower(c)); };
   
   // Returns true if s represents a valid decimal integer
@@ -63,19 +71,22 @@ class ASMParser{
 
   // Converts a string to an integer.  Assumes s is something like "-231" and produces -231
   int  cvtNumString2Number(string s);
+  
+  //returns the r-type encoding as a string given an instruction
+  string rtypeEncoding(Instruction i);
 
+  //returns the i-type encoding as a string given an instruction
+  string itypeEncoding(Instruction i);
 
-  // Given a valid instruction, returns a string representing the 32 bit MIPS binary encoding
-  // of that instruction.
+  //returns the j-type encoding as a string given an instruction
+  string jtypeEncoding(Instruction i);
+
+  //converts a decimal number to its binary equivalent and returns it as a string.
+  string convertToBinary(int decimal, unsigned int length);
+
+  // Given a valid instruction, returns a string representing the 32 bit MIPS binary encoding of that instruction
   string encode(Instruction i);
 
-  string toBin(int a);
-
-  string toBinaryImm(int a);
-
-  string toBinaryIns(int a);
-
-  string add(string operand1, string operand2);
 
 };
 

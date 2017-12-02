@@ -1,6 +1,4 @@
 #include "ASMParser.h"
-using namespace std;  
-
 
 ASMParser::ASMParser(string filename)
   // Specify a text file containing MIPS assembly instructions. Function
@@ -9,7 +7,7 @@ ASMParser::ASMParser(string filename)
   Instruction i;
   myFormatCorrect = true;
 
-  myLabelAddress = 0x400000;
+  // myLabelAddress = 0x400000;
 
   ifstream in;
   in.open(filename.c_str());
@@ -19,7 +17,6 @@ ASMParser::ASMParser(string filename)
   else{
     string line;
     while( getline(in, line)){
-      // cout << line << endl;
       i.setPlain(line);
       string opcode("");
       string operand[80];
@@ -28,22 +25,22 @@ ASMParser::ASMParser(string filename)
       getTokens(line, opcode, operand, operand_count);
 
       if(opcode.length() == 0 && operand_count != 0){
-	// No opcode but operands
-	myFormatCorrect = false;
-	break;
+  // No opcode but operands
+  myFormatCorrect = false;
+  break;
       }
 
       Opcode o = opcodes.getOpcode(opcode);      
       if(o == UNDEFINED){
-	// invalid opcode specified
-	myFormatCorrect = false;
-	break;
+  // invalid opcode specified
+  myFormatCorrect = false;
+  break;
       }
 
       bool success = getOperands(i, o, operand, operand_count);
       if(!success){
-	myFormatCorrect = false;
-	break;
+  myFormatCorrect = false;
+  break;
       }
 
       string encoding = encode(i);
@@ -72,16 +69,16 @@ Instruction ASMParser::getNextInstruction()
 }
 
 void ASMParser::getTokens(string line,
-			       string &opcode,
-			       string *operand,
-			       int &numOperands)
+             string &opcode,
+             string *operand,
+             int &numOperands)
   // Decomposes a line of assembly code into strings for the opcode field and operands, 
   // checking for syntax errors and counting the number of operands.
 {
     // locate the start of a comment
     string::size_type idx = line.find('#');
     if (idx != string::npos) // found a ';'
-	line = line.substr(0,idx);
+  line = line.substr(0,idx);
     int len = line.length();
     opcode = "";
     numOperands = 0;
@@ -91,35 +88,35 @@ void ASMParser::getTokens(string line,
 
     // line.at(p) is whitespace or p >= len
     while (p < len && isWhitespace(line.at(p)))
-	p++;
+  p++;
     // opcode starts
     while (p < len && !isWhitespace(line.at(p)))
     {
-	opcode = opcode + line.at(p);
-	p++;
+  opcode = opcode + line.at(p);
+  p++;
     }
     //    for(int i = 0; i < 3; i++){
     int i = 0;
     while(p < len){
       while ( p < len && isWhitespace(line.at(p)))
-	p++;
+  p++;
 
       // operand may start
       bool flag = false;
       while (p < len && !isWhitespace(line.at(p)))
-	{
-	  if(line.at(p) != ','){
-	    operand[i] = operand[i] + line.at(p);
-	    flag = true;
-	    p++;
-	  }
-	  else{
-	    p++;
-	    break;
-	  }
-	}
+  {
+    if(line.at(p) != ','){
+      operand[i] = operand[i] + line.at(p);
+      flag = true;
+      p++;
+    }
+    else{
+      p++;
+      break;
+    }
+  }
       if(flag == true){
-	numOperands++;
+  numOperands++;
       }
       i++;
     }
@@ -129,7 +126,7 @@ void ASMParser::getTokens(string line,
     string::size_type idx2 = operand[numOperands-1].find(')');
     
     if (idx == string::npos || idx2 == string::npos ||
-	((idx2 - idx) < 2 )){ // no () found
+  ((idx2 - idx) < 2 )){ // no () found
     }
     else{ // split string
       string offset = operand[numOperands-1].substr(0,idx);
@@ -155,12 +152,12 @@ bool ASMParser::isNumberString(string s)
     if (len == 0) return false;
     if ((isSign(s.at(0)) && len > 1) || isDigit(s.at(0)))
     {
-	// check remaining characters
-	for (int i=1; i < len; i++)
-	{
-	    if (!isdigit(s.at(i))) return false;
-	}
-	return true;
+  // check remaining characters
+  for (int i=1; i < len; i++)
+  {
+      if (!isdigit(s.at(i))) return false;
+  }
+  return true;
     }
     return false;
 }
@@ -171,32 +168,32 @@ int ASMParser::cvtNumString2Number(string s)
 {
     if (!isNumberString(s))
     {
-	cerr << "Non-numberic string passed to cvtNumString2Number"
-		  << endl;
-	return 0;
+  cerr << "Non-numberic string passed to cvtNumString2Number"
+      << endl;
+  return 0;
     }
     int k = 1;
     int val = 0;
     for (int i = s.length()-1; i>0; i--)
     {
-	char c = s.at(i);
-	val = val + k*((int)(c - '0'));
-	k = k*10;
+  char c = s.at(i);
+  val = val + k*((int)(c - '0'));
+  k = k*10;
     }
     if (isSign(s.at(0)))
     {
-	if (s.at(0) == '-') val = -1*val;
+  if (s.at(0) == '-') val = -1*val;
     }
     else
     {
-	val = val + k*((int)(s.at(0) - '0'));
+  val = val + k*((int)(s.at(0) - '0'));
     }
     return val;
 }
-		
+    
 
 bool ASMParser::getOperands(Instruction &i, Opcode o, 
-			    string *operand, int operand_count)
+          string *operand, int operand_count)
   // Given an Opcode, a string representing the operands, and the number of operands, 
   // breaks operands apart and stores fields into Instruction.
 {
@@ -237,16 +234,22 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
     if(isNumberString(operand[imm_p])){  // does it have a numeric immediate field?
       imm = cvtNumString2Number(operand[imm_p]);
       if(((abs(imm) & 0xFFFF0000)<<1))  // too big a number to fit
-	return false;
+  return false;
     }
     else{ 
       if(opcodes.isIMMLabel(o)){  // Can the operand be a label?
-	// Assign the immediate field an address
-	imm = myLabelAddress;
-	myLabelAddress += 4;  // increment the label generator
+        // Debugging
+        // cout<< "check" << endl;
+  // Assign the immediate field an address
+  // imm = cvtNumString2Number(operand[imm_p]);
+  // imm = myLabelAddress;
+  // cout<< operand[imm_p] <<endl;
+  imm = strtol(operand[imm_p].substr(2).c_str(), NULL, 16);
+  // cout<< imm <<endl;
+  // myLabelAddress += 4;  // increment the label generator
       }
       else  // There is an error
-	return false;
+  return false;
     }
 
   }
@@ -256,172 +259,142 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
   return true;
 }
 
+  // Given a valid instruction, returns a string representing the 32 bit MIPS binary encoding of that instruction
+string ASMParser::encode(Instruction i){
+ Opcode opcode = i.getOpcode(); //get opcode of instruction
+ 
+ OpcodeTable opTable;
+ InstType instructionType = opTable.getInstType(opcode);
+ 
+ string binaryEncoding;
 
-string ASMParser::encode(Instruction i)
-  // Given a valid instruction, returns a string representing the 32 bit MIPS binary encoding
-  // of that instruction.
-{
-  // Your code here
-  string result = "";
-  result += opcodes.getOpcodeField(i.getOpcode()); //append opcode
-  if (opcodes.getInstType(i.getOpcode()) == RTYPE) { // RTYPE
-    int rs = i.getRS();
-    string bin = toBin(rs);
-    result += bin; //append rs
-    int rt = i.getRT();
-    bin = toBin(rt);
-    result += bin; //append rt
-    int rd = i.getRD();
-    bin = toBin(rd);
-    result += bin; //append rd
-    int imm = i.getImmediate();
-    bin = toBin(imm);
-    result += bin; //append immediate value
-    string op = opcodes.getFunctField(i.getOpcode());
-    result += op; //append function code
-  } else if (opcodes.getInstType(i.getOpcode()) == ITYPE) { // ITYPE
-    int rs = i.getRS();
-    result += toBin(rs); //append rs
-    int rt = i.getRT();
-    result += toBin(rt); //append rt
-    int imm = i.getImmediate();
-    result += toBinaryImm(imm); //append immediate value
-  } else if (opcodes.getInstType(i.getOpcode()) == JTYPE) { // JTYPE
-    string address = toBinaryIns(myLabelAddress);
-    address.insert(0, "00");
-    address.erase(address.end() - 1);
-    address.erase(address.end() - 1);
-    //address += "0000"; //address
-    result += address;
-  } else { // UNDEFIND
-    result = "The instruction is undefined.";
-  }
-  return result;
+ if(instructionType == RTYPE){
+   binaryEncoding = rtypeEncoding(i);
+ }  
+ else if(instructionType == ITYPE){
+   binaryEncoding = itypeEncoding(i);
+ }  
+ else{
+   binaryEncoding = jtypeEncoding(i);
+ }
+  
+  return binaryEncoding;
+
 }
 
-string ASMParser::toBin(int a) 
-  // Given an decimal int, converts to 5 characters binary string.
-  // parse the register number from decimal to binary
-  // input: int value between 0 and 31 inclusive.
-  // output: binary string representation of the int value
-{
-  string result = "";
-  if (a <= 31 && a >= 0) { //input int meets requirement
-    while (a > 0) {
-      int bit = a % 2;
-      char temp;
-      temp = bit + '0'; //convert integer bit to char
-      result = temp + result;
-      a = a/2;
-    }
-  } else {
+//returns the r-type encoding as a string given an instruction
+string ASMParser::rtypeEncoding(Instruction i){
+  Opcode opcode = i.getOpcode();
+  int rsDecimal = i.getRS();
+  int rtDecimal = i.getRT();
+  int rdDecimal = i.getRD();
+  int shamtDecimal = i.getImmediate();
+ 
+  OpcodeTable opTable;
+  string encoding;
 
-  }
-  while (result.size() < 5) {
-    result.insert(0, "0");
-  }
-  return result;
+  string opcodeBinary = opTable.getOpcodeField(opcode);
+  string rsBinary = convertToBinary(rsDecimal,5);
+  string rtBinary = convertToBinary(rtDecimal,5);
+  string rdBinary = convertToBinary(rdDecimal,5);
+  string functBinary = opTable.getFunctField(opcode);
+  string shamtBinary = convertToBinary(shamtDecimal,5);
+
+  encoding = opcodeBinary + rsBinary + rtBinary + rdBinary + shamtBinary + functBinary;
+  
+  return encoding;
+   
 }
 
-string ASMParser::toBinaryImm(int a)  
-  // Given an decimal int, converts to 16 characters binary string.
-  // parse the immediate value from decimal to binary
-  // input: int value (convertable to 16 bits)
-  // output: binary string representation of the int value
-{
-  // cout<< a << endl;
-  if (a >= 0) {
-    string result = "";
-    while (a > 0) {
-      int bit = a % 2;
-      char temp;
-      temp = bit + '0';
-      result = temp + result;
-      a = a/2;
-    } 
-    while (result.size() < 16) {
-      result.insert(0, "0");
-    }
-    return result;
-  } else {
-    a = 0 - a;
-    // cout <<a << endl;
-    string result = "";
-    while (a > 0) {
-      int bit = a % 2;
-      char temp;
-      temp = bit + '0';
-      result = temp + result;
-      a = a/2;
-    } 
-    while (result.size() < 16) {
-      result.insert(0, "0");
-    }
-      string temp = "0000000000000000";
+  //returns the i-type encoding as a string given an instruction
+string ASMParser::itypeEncoding(Instruction i){
+  Opcode opcode = i.getOpcode();
+  int rsDecimal = i.getRS();
+  int rtDecimal = i.getRT();
+  int immediateDecimal = i.getImmediate();
 
-    for (int i = 0; i < 16; i++) {
-      if (result[i] == '1') {
-        temp[i] = '0';
-      } else {
-        temp[i] = '1';
+  string encoding;
+  OpcodeTable opTable;
+
+  string opcodeBinary = opTable.getOpcodeField(opcode);
+  string rsBinary = convertToBinary(rsDecimal,5);
+  string rtBinary = convertToBinary(rtDecimal,5);
+  string immediateBinary = convertToBinary(immediateDecimal,16);
+
+  encoding = opcodeBinary + rsBinary + rtBinary + immediateBinary;
+  
+  return encoding;
+   
+}
+
+//returns the j-type encoding as a string given an instruction
+string ASMParser::jtypeEncoding(Instruction i){
+  Opcode opcode = i.getOpcode();
+  int addressDecimal = i.getImmediate();
+  
+  // cout << std::to_string(addressDecimal) << endl;
+  OpcodeTable opTable;
+  string encoding;
+
+  string opcodeBinary = opTable.getOpcodeField(opcode);
+  string addressBinary = convertToBinary(addressDecimal,26);
+  // addressBinary = addressBinary.substr(0, addressBinary.size()-6); //changed from -2 to -4
+  // addressBinary = addressBinary.substr(6);
+  // addressBinary = "000000" + addressBinary; //changed from "00" to "0000"
+  encoding = opcodeBinary + addressBinary;
+  
+  return encoding;
+   
+}
+
+//converts a decimal number to its binary equivalent and returns it as a string.
+string ASMParser::convertToBinary(int decimal, unsigned int length){
+  bool negative = false;
+  if(decimal < 0){
+    decimal = 0-decimal;
+    negative = true;
+  }
+
+  int number = decimal;
+  string binary = "";
+  int append = 0;
+
+  while(binary.length() < length){
+    append = number % 2;
+    number = number/2;
+    if(append == 1){
+      binary = "1" + binary;
+    }
+    else{
+      binary = "0" + binary;
+    }
+  }
+
+  //if the number is negative return the two's complement version.
+  if(negative){
+    for(unsigned int i = 0; i < binary.length(); i++){
+      if(binary[i] == '1'){
+        binary[i] = '0';
+      }
+      else if(binary[i] == '0'){
+        binary[i] = '1';
       }
     }
 
-    string temp2 = "0000000000000001";
-    result = add(temp, temp2);
-    return result;
-  }
-}
-
-string ASMParser::add(string operand1, string operand2) {
-  char carry = '0'; //carry bit
-  string result = "0000000000000000";
-  for (int i = 16; i > -1; i--) {
-    //cout << i << carry << myOperand1[i] << myOperand2[i] << endl;
-    if (operand1[i] == '0' && operand2[i] == '0' && carry == '0') {
-      //ignore overflow
-
-      //cout << i << "\tcarry = 0 result = 0" << endl;
-      result[i] = '0';
-      carry = '0';
-    } else if ((operand1[i] == '0' && operand2[i] == '0' && carry == '1')
-      || (operand1[i] == '0' && operand2[i] == '1' && carry == '0')
-      || (operand1[i] == '1' && operand2[i] == '0' && carry == '0')) {
-      //cout << i << "\tcarry = 0 result = 1" << endl;
-      result[i] = '1';
-      carry = '0';
-    } else if ((operand1[i] == '1' && operand2[i] == '1' && carry == '0')
-      || (operand1[i] == '1' && operand2[i] == '0' && carry == '1')
-      || (operand1[i] == '0' && operand2[i] == '1' && carry == '1')) {
-      //cout << i << "\tcarry = 1 result = 0" << endl;
-      result[i] = '0';
-      carry = '1';
-    } else if (operand1[i] == '1' && operand2[i] == '1' && carry == '1') {
-      //cout << i << "\tcarry = 1 result = 1" << endl;
-      result[i] = '1';
-      carry = '1';
+  bool add = true;
+  int j = binary.length()-1;
+    while (add == true && j >= 0){
+      if(binary[j] == '0'){
+        binary[j] = '1';
+        add = false;
+      } else {
+        binary[j] = '0';
+        j--;
+      }
     }
-  }
-  //cout << "result\t\t" << result << endl;
-  return result;
+  } 
+  
+  return binary;
+
 }
 
-string ASMParser::toBinaryIns(int a)  
-  // Given an decimal int, converts to 26 characters binary string.
-  // parse the address from decimal to binary
-  // input: int value (convertable to 26 bits)
-  // output: binary string representation of the int value
-{
-  string result = "";
-  while (a > 0) {
-    int bit = a % 2;
-    char temp;
-    temp = bit + '0';
-    result = temp + result;
-    a = a/2;
-  } 
-  while (result.size() < 26) {
-    result.insert(0, "0");
-  }
-  return result;
-}

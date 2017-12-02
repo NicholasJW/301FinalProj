@@ -24,8 +24,8 @@ void Processor::run(){
         // Some printing jobs
         ss << "\n============================\n\n\n";
         // For debugging 
-        cout << currentIns << endl;
-        ss << std::to_string(insNum) << " : " << imem.getInsMips(currentInsAddress) << '\n';
+        // cout << currentIns << endl;
+        ss << std::to_string(insNum) << " : " << imem.getInsMips(currentInsAddress) << '\n' << currentIns << '\n';
 
         if (print_memory){
             ss << imem.toString();
@@ -44,7 +44,6 @@ void Processor::run(){
         }
 
         currentInsAddress += 4;
-        insNum ++;
     }
     ofs.close();
      

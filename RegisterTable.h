@@ -1,5 +1,5 @@
-#ifndef _REGISTERTABLE_H
-#define _REGISTERTABLE_H
+#ifndef __REGISTERTABLE_H__
+#define __REGISTERTABLE_H__
 
 #include <string>
 

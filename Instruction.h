@@ -25,8 +25,9 @@ class Instruction{
   void setPlain(string s){plain = s;};
   string getPlain(){return plain;};
 
+
   // Returns the various fields for the Instruction
-  Opcode getOpcode()   { return myOpcode; };
+  Opcode getOpcode()   { return myOpcode;}
   Register getRS()     { return myRS; };
   Register getRD()     { return myRD; };
   Register getRT()     { return myRT; };
