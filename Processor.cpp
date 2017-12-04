@@ -16,11 +16,16 @@ void Processor::run(){
     
     initializeLines();
     int insNum = 1; //Indicating which instruction we are running
-    int currentInsAddress = pc.getCurrentAddress();
+    int currentInsAddress = stoi("40000", nullptr, 16);
     string currentIns;
-    while(imem.hasIns(currentInsAddress)){
+    while(true){
+        // cout << "check" << endl;
+        
         // Get current instruction address
         currentInsAddress = pc.getCurrentAddress();
+        if(!imem.hasIns(currentInsAddress)){
+            break;
+        }
         // ALU 1
         alu1.setInputs(currentInsAddress, 4);
         alu1.calculate();
@@ -51,21 +56,64 @@ void Processor::run(){
         alu2.calculate();
         // MUX 2:
         mux2.setInput0(regs.getRead2());
-        mux2.setInput1("0x" + std::to_string(::stoi(se.outputs(), nullptr, 2)));
+        mux2.setInput1(stoi(se.outputs(), nullptr, 2));
         mux2.compute(stoi(ALUSrc.getValue().substr(2), nullptr, 16));
         // ALU Control:
         ac.setControl(ALUOp1.getValue(), ALUOp2.getValue());
         ac.setFuncCode(currentIns.substr(26));
         ac.compute();
         ALUline.setValue(ac.outputs());
+        cout << "Check" << endl;
         // ALU 3:
-        alu3.setInputs(stoi(regs.getRead1(), nullptr, 16), stoi(mux2.outputs(), nullptr, 16));
-        alu3.calculate(ALUline.getValue());
-        zeroLine.setValue(alu3.getZeroValue());
-
+        if (jump.getValue() == "0x0"){
+            cout << regs.getRead1() << "  " << regs.getRead2() << endl;
+            cout << mux2.outputs() << endl;
+            alu3.setInputs(stol(regs.getRead1(), nullptr, 16), stol(mux2.outputs(), nullptr, 16));
+            cout << "check" << endl;
+            alu3.calculate(ALUline.getValue());
+            zeroLine.setValue(alu3.getZeroValue());
+        }
+        // MUX 5:
+        mux5.setInput0(alu1.getResult());
+        mux5.setInput1(alu2.getResult());
+        int mux5Control;
+        // A small AND gate
+        if(branch.getValue() == "0x1" && zeroLine.getValue() == "0x1"){
+            mux5Control = 1;    
+        }else{
+            mux5Control = 0;
+        }
+        mux5.compute(mux5Control);
+        // MUX 4:
+        // COnvert to binary
+        string alu1Result = std::bitset< 32 >(alu1.getResult()).to_string();
+        // cout << alu1Result << endl;
+        alu1Result = alu1Result.substr(0,4)+slt1.outputs();
+        // back to int
+        mux4.setInput1(stoi(alu1Result, nullptr, 2));
+        mux4.setInput0(mux5.outputs());
+        mux4.compute(stoi(jump.getValue().substr(2), nullptr, 16));
+        // Write back to pc
+        pc.setCurrentAddress(stoi(mux4.outputs().substr(2), nullptr, 16));
+        // Memory
+        stringstream toHex;
+        toHex << "0x" << std::hex << alu3.getResult();
+        dmem.setAddress(toHex.str());
+        toHex.str("");
+        dmem.setWriteData("0x" + regs.getRead2());
+        if (memRead.getValue() == "0x1"){
+            dmem.readMem();
+        }
+        if (memWrite.getValue() == "0x1"){
+            dmem.writeMem();
+        }
+        // MUX 3
+        toHex << "0x" << std::hex << alu3.getResult();
+        mux3.setInput0(toHex.str());
+        toHex.str("");
+        mux3.setInput1(dmem.outputs());
+        mux3.compute(stoi(jump.getValue().substr(2), nullptr, 16));
         // Writing back to Registers
-        // Debugging DELETE!!!!!!!
-        // regWrite.setValue("0x1");
         regs.setSignal(regWrite.getValue());
         regs.setWrite(std::stoi(mux1.outputs(), nullptr, 2), mux3.outputs());
         regs.write();
@@ -160,9 +208,12 @@ void Processor::unitOutput(){
     ss << "Shift left two 2:\n" << "Input : " << slt2.inputs() << '\n' << "Output: "<< slt2.outputs() << "\n\n";
     ss << "ALU 2:\n" << "Inputs: \n"<< alu2.inputs() << "Output: \n"<< alu2.outputs() << "\n";
     ss << "Mux 2:\n" << mux2.inputs() << '\n' << "Output: 0x"<< mux2.outputs() << "\n\n";
-    ss << "ALU Control: \n" << ac.inputs() << '\n' << ac.outputs() <<"\n\n";
+    ss << "ALU Control: \n" << ac.inputs() << '\n' << "Output: "<< ac.outputs() <<"\n\n";
     ss << "ALU 3:\n" << "Inputs: \n"<< alu3.inputs() << "Control signal: " << alu3.getControlSignal() << '\n' << alu3.outputs() << "Zero Value: "<< alu3.getZeroValue() << "\n\n";
-
+    ss << "Mux 5:\n" << mux5.inputs() << '\n' << "Output: "<< mux5.outputs() << "\n\n";
+    ss << "Mux 4:\n" << mux4.inputs() << '\n' << "Output: "<< mux4.outputs() << "\n\n";
+    ss << "Data Memory: \n" << dmem.inputs() << "\n Control Signals: " << "\n MemRead: " << memRead.getValue() << "\n MemWrite: " << memWrite.getValue() << "\n Ouput: " << dmem.outputs() << "\n\n"; 
+    ss << "Mux 3:\n" << mux3.inputs() << '\n' << "Output: "<< mux3.outputs() << "\n\n";
 }
 
 void Processor::dataOutput(){

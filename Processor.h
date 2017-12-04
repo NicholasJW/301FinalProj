@@ -5,6 +5,7 @@
 #include <iostream>     // std::cout
 #include <sstream> 		// std::stringstream
 #include <fstream>		// std::ofstream
+#include <bitset>		// string to bianry
 
 #include "InstructionMem.h"
 #include "DataMem.h"

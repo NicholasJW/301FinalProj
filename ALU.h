@@ -10,6 +10,7 @@ public:
 	ALU();
 
 	void setInputs(int first, int second);
+	void setInputs(long first, long second){};
 
 	// Two calculate methods, with or without control signals
 	void calculate(string _control);

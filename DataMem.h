@@ -5,6 +5,7 @@
 #include <fstream>
 #include <map>
 #include <iostream>
+#include <sstream>
 #include <algorithm> // To convert string to all lower case
 
 using namespace std;
@@ -17,6 +18,14 @@ public:
 	// Constructor that takes a file name as input and construct the DataMem 
 	DataMem(string memory_contents_input){readFile(memory_contents_input);};
 
+	void setAddress(string a){address = a;};
+	void setWriteData(string w){writeData = w;};
+	void readMem(){readData = read(address);};
+	void writeMem(){write(address, writeData);};
+
+	string inputs();
+	string outputs();
+
 	// Read corresponding content from address
 	string read(string address);
 
@@ -28,6 +37,13 @@ public:
 
 private:
 	// string fileName;
+	// Inputs
+	string address;
+	string writeData;
+	string readData = "N/A";
+	// Control signals
+	string isMemRead;
+	string isMemWrite;
 
 	// Hashmap to store addresses and their contents
 	map<string, string> data;

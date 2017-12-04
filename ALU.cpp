@@ -22,6 +22,13 @@ void ALU::calculate(string _control){
         exit(1);
     }
 
+    stringstream toHex;
+    toHex << std::hex << result;
+    string s = toHex.str();
+    if (s.size()>8){
+        s = s.substr(s.size()-8);
+    }
+    result = stoi(s, nullptr, 16);
     if(result == 0){
         zeroValue = "0x1";
     }else{
@@ -32,6 +39,13 @@ void ALU::calculate(string _control){
 
 void ALU::calculate(){
     result = input1 + input2;
+    stringstream toHex;
+    toHex << std::hex << result;
+    string s = toHex.str();
+    if (s.size()>8){
+        s = s.substr(s.size()-8);
+    }
+    result = stoi(s, nullptr, 16);
     if(result == 0){
         zeroValue = "0x1";
     }else{

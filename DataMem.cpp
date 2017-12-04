@@ -4,6 +4,18 @@ DataMem::DataMem(){
 
 }
 
+string DataMem::inputs(){
+	stringstream in;
+	in << "Inputs: ";
+	in << "\nMemory Address: " << address;
+	in << "\nData to write: " << writeData;
+	return in.str();
+}
+
+string DataMem::outputs(){
+	return "0x" + readData;
+}
+
 string DataMem::read(string address){
 	address = remove0x(address);
 	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
