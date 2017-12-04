@@ -79,6 +79,7 @@ void Processor::run(){
         // ALU Control:
         ac.setControl(ALUOp1.getValue(), ALUOp2.getValue());
         ac.setFuncCode(currentIns.substr(26));
+        // cout << currentIns.substr(26) << endl;
         ac.compute();
         ALUline.setValue(ac.outputs());
         // cout << "Check" << endl;

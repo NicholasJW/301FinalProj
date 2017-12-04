@@ -23,6 +23,8 @@ void ALU::calculate(string _control){
         one = stol(input1.substr(2), nullptr, 16);
         two = stol(input2.substr(2), nullptr, 16);
         calc = one + two;
+        ss.str("");
+        ss.clear();
         ss << std::hex << calc;
         if (ss.str().size()>8){
             result = "0x" + ss.str().substr(ss.str().size()-8);
@@ -33,12 +35,29 @@ void ALU::calculate(string _control){
         one = stol(input1.substr(2), nullptr, 16);
         two = stol(input2.substr(2), nullptr, 16);
         calc = one - two;
+        ss.str("");
+        ss.clear();
         ss << std::hex << calc;
         if (ss.str().size()>8){
             result = "0x" + ss.str().substr(ss.str().size()-8);
         }else{
             result = "0x" + ss.str();
         }
+    }else if(control == "0x9"){
+        one = stol(input1.substr(2), nullptr, 16);
+        two = stol(input2.substr(2), nullptr, 16);
+        calc = one - two;
+        if(calc<0){
+            result = "0x1";
+        }else{
+            result = "0x0";
+        }
+        // ss << std::hex << calc;
+        // if (ss.str().size()>8){
+        //     result = "0x" + ss.str().substr(ss.str().size()-8);
+        // }else{
+        //     result = "0x" + ss.str();
+        // }
     }else{
         cout << control << endl;
         cerr << "Wrong ALU Control signal" << endl;
