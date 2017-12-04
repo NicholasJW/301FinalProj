@@ -17,14 +17,14 @@ memWrite : 0x0
 ALUSrc : 0x0
 regWrite : 0x0
 ALUline : 0x6
-zeroLine : 0x1
+zeroLine : 0x0
 
 ==========================
 Input and output of all units:
 
 ProgramCounter :
-Input (instruction address): 0x40804
-Output (instruction address): 0x40804
+Input (instruction address): 0x40004
+Output (instruction address): 0x40004
 
 Instruction Memory:
 Input (instruction address): 0x40000
@@ -56,7 +56,7 @@ Inputs:
 First read register: $1
 Second read register: $2
 Write register: $2
-Write data: 0x0
+Write data: 0x19a8c88
 Control signal (regWrite): 0x0
 Outputs: 
 First reading data: 0x305f7ea1
@@ -79,9 +79,9 @@ Output: 0x40804
 
 Mux 2:
 Inputs: 
-  Input 0: 2ec4f219
+  Input 0: 0x2ec4f219
   Input 1: 0x200
-Output: 0x2ec4f219
+Output: 0x0x2ec4f219
 
 ALU Control: 
 Inputs: 
@@ -92,27 +92,27 @@ Output: 0x6
 
 ALU 3:
 Inputs: 
-First input: 0xffffffff
-Second input: 0xffffffff
+First input: 0x305f7ea1
+Second input: 0x2ec4f219
 Control signal: 0x6
-Output: 0x0
-Zero Value: 0x1
+Output: 0x19a8c88
+Zero Value: 0x0
 
 Mux 5:
 Inputs: 
   Input 0: 0x40004
   Input 1: 0x40804
-Output: 0x40804
+Output: 0x40004
 
 Mux 4:
 Inputs: 
-  Input 0: 0x40804
+  Input 0: 0x40004
   Input 1: 0x880800
-Output: 0x40804
+Output: 0x40004
 
 Data Memory: 
 Inputs: 
-Memory Address: 0x0
+Memory Address: 0x19a8c88
 Data to write: 0x2ec4f219
  Control Signals: 
  MemRead: 0x0
@@ -121,7 +121,515 @@ Data to write: 0x2ec4f219
 
 Mux 3:
 Inputs: 
-  Input 0: 0x0
+  Input 0: 0x19a8c88
   Input 1: 0xN/A
-Output: 0x0
+Output: 0x19a8c88
+
+
+============================
+
+2 : beq	$1, $2, 0x1e00
+00010000001000100001111000000000
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x1
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x0
+ALUOp2 : 0x1
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x0
+ALUline : 0x6
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40008
+Output (instruction address): 0x40008
+
+Instruction Memory:
+Input (instruction address): 0x40004
+Output (Binary instruction): 00010000001000100001111000000000
+
+ALU 1:
+Inputs: 
+First input: 0x40004
+Second input: 0x4
+Output: 
+Output: 0x40008
+
+Shift left two 1:
+Input : 00001000100001111000000000
+Output: 0000100010000111100000000000
+
+Main Contral: 
+Input: opcode 000100
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 00010
+  Input 1: 00011
+Output: 00010
+
+Registers memory: 
+Inputs: 
+First read register: $1
+Second read register: $2
+Write register: $2
+Write data: 0x19a8c88
+Control signal (regWrite): 0x0
+Outputs: 
+First reading data: 0x305f7ea1
+Second reading data: 0x2ec4f219
+
+Sign Extend unit: 
+Input: 0001111000000000
+Output: 00000000000000000001111000000000
+
+Shift left two 2:
+Input : 00000000000000000001111000000000
+Output: 00000000000000000111100000000000
+
+ALU 2:
+Inputs: 
+First input: 0x40008
+Second input: 0x7800
+Output: 
+Output: 0x47808
+
+Mux 2:
+Inputs: 
+  Input 0: 0x2ec4f219
+  Input 1: 0x1e00
+Output: 0x0x2ec4f219
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x1
+ Function code: 000000
+Output: 0x6
+
+ALU 3:
+Inputs: 
+First input: 0x305f7ea1
+Second input: 0x2ec4f219
+Control signal: 0x6
+Output: 0x19a8c88
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40008
+  Input 1: 0x47808
+Output: 0x40008
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40008
+  Input 1: 0x887800
+Output: 0x40008
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x19a8c88
+Data to write: 0x2ec4f219
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0xN/A
+
+Mux 3:
+Inputs: 
+  Input 0: 0x19a8c88
+  Input 1: 0xN/A
+Output: 0x19a8c88
+
+
+============================
+
+3 : add $3, $4, $8
+00000000100010000001100000100000
+
+==========================
+value of all control lines:
+regDst : 0x1
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x1
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x1
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x4000c
+Output (instruction address): 0x4000c
+
+Instruction Memory:
+Input (instruction address): 0x40008
+Output (Binary instruction): 00000000100010000001100000100000
+
+ALU 1:
+Inputs: 
+First input: 0x40008
+Second input: 0x4
+Output: 
+Output: 0x4000c
+
+Shift left two 1:
+Input : 00100010000001100000100000
+Output: 0010001000000110000010000000
+
+Main Contral: 
+Input: opcode 000000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01000
+  Input 1: 00011
+Output: 01000
+
+Registers memory: 
+Inputs: 
+First read register: $4
+Second read register: $8
+Write register: $8
+Write data: 0xf6ef80fa
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0xe65e1e87
+Second reading data: 0x10916273
+
+Sign Extend unit: 
+Input: 0001100000100000
+Output: 00000000000000000001100000100000
+
+Shift left two 2:
+Input : 00000000000000000001100000100000
+Output: 00000000000000000110000010000000
+
+ALU 2:
+Inputs: 
+First input: 0x4000c
+Second input: 0x6080
+Output: 
+Output: 0x4608c
+
+Mux 2:
+Inputs: 
+  Input 0: 0x10916273
+  Input 1: 0x1820
+Output: 0x0x10916273
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x1
+ ALUOp2: 0x0
+ Function code: 100000
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0xe65e1e87
+Second input: 0x10916273
+Control signal: 0x2
+Output: 0xf6ef80fa
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x4000c
+  Input 1: 0x4608c
+Output: 0x4000c
+
+Mux 4:
+Inputs: 
+  Input 0: 0x4000c
+  Input 1: 0x2206080
+Output: 0x4000c
+
+Data Memory: 
+Inputs: 
+Memory Address: 0xf6ef80fa
+Data to write: 0x10916273
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0xN/A
+
+Mux 3:
+Inputs: 
+  Input 0: 0xf6ef80fa
+  Input 1: 0xN/A
+Output: 0xf6ef80fa
+
+
+============================
+
+4 : addi	$2, $1, 100
+00100000001000100000000001100100
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x0
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x1
+regWrite : 0x1
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40010
+Output (instruction address): 0x40010
+
+Instruction Memory:
+Input (instruction address): 0x4000c
+Output (Binary instruction): 00100000001000100000000001100100
+
+ALU 1:
+Inputs: 
+First input: 0x4000c
+Second input: 0x4
+Output: 
+Output: 0x40010
+
+Shift left two 1:
+Input : 00001000100000000001100100
+Output: 0000100010000000000110010000
+
+Main Contral: 
+Input: opcode 001000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 00010
+  Input 1: 00000
+Output: 00010
+
+Registers memory: 
+Inputs: 
+First read register: $1
+Second read register: $2
+Write register: $2
+Write data: 0x5f2470ba
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x305f7ea1
+Second reading data: 0x2ec4f219
+
+Sign Extend unit: 
+Input: 0000000001100100
+Output: 00000000000000000000000001100100
+
+Shift left two 2:
+Input : 00000000000000000000000001100100
+Output: 00000000000000000000000110010000
+
+ALU 2:
+Inputs: 
+First input: 0x40010
+Second input: 0x190
+Output: 
+Output: 0x401a0
+
+Mux 2:
+Inputs: 
+  Input 0: 0x2ec4f219
+  Input 1: 0x64
+Output: 0x0x2ec4f219
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x0
+ Function code: 100100
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0x305f7ea1
+Second input: 0x2ec4f219
+Control signal: 0x2
+Output: 0x5f2470ba
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40010
+  Input 1: 0x401a0
+Output: 0x40010
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40010
+  Input 1: 0x880190
+Output: 0x40010
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x5f2470ba
+Data to write: 0x2ec4f219
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0xN/A
+
+Mux 3:
+Inputs: 
+  Input 0: 0x5f2470ba
+  Input 1: 0xN/A
+Output: 0x5f2470ba
+
+
+============================
+
+5 : sub	$2, $3, $9
+00000000011010010001000000100010
+
+==========================
+value of all control lines:
+regDst : 0x1
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x1
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x1
+ALUline : 0x6
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40014
+Output (instruction address): 0x40014
+
+Instruction Memory:
+Input (instruction address): 0x40010
+Output (Binary instruction): 00000000011010010001000000100010
+
+ALU 1:
+Inputs: 
+First input: 0x40010
+Second input: 0x4
+Output: 
+Output: 0x40014
+
+Shift left two 1:
+Input : 00011010010001000000100010
+Output: 0001101001000100000010001000
+
+Main Contral: 
+Input: opcode 000000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01001
+  Input 1: 00010
+Output: 01001
+
+Registers memory: 
+Inputs: 
+First read register: $3
+Second read register: $9
+Write register: $9
+Write data: 0x27953f7b
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0xc57b54ba
+Second reading data: 0x9de6153f
+
+Sign Extend unit: 
+Input: 0001000000100010
+Output: 00000000000000000001000000100010
+
+Shift left two 2:
+Input : 00000000000000000001000000100010
+Output: 00000000000000000100000010001000
+
+ALU 2:
+Inputs: 
+First input: 0x40014
+Second input: 0x4088
+Output: 
+Output: 0x4409c
+
+Mux 2:
+Inputs: 
+  Input 0: 0x9de6153f
+  Input 1: 0x1022
+Output: 0x0x9de6153f
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x1
+ ALUOp2: 0x0
+ Function code: 100010
+Output: 0x6
+
+ALU 3:
+Inputs: 
+First input: 0xc57b54ba
+Second input: 0x9de6153f
+Control signal: 0x6
+Output: 0x27953f7b
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40014
+  Input 1: 0x4409c
+Output: 0x40014
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40014
+  Input 1: 0x1a44088
+Output: 0x40014
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x27953f7b
+Data to write: 0x9de6153f
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0xN/A
+
+Mux 3:
+Inputs: 
+  Input 0: 0x27953f7b
+  Input 1: 0xN/A
+Output: 0x27953f7b
 

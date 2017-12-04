@@ -14,7 +14,7 @@ InstructionMem::InstructionMem(string program_input){
     Instruction i;
 
     //Initial memory address at which instructions are stored
-    int memAddress = 0x40000; 
+    string memAddress = "0x40000"; 
 
     //Iterate through instructions, printing each encoding.
     i = parser->getNextInstruction();
@@ -24,23 +24,30 @@ InstructionMem::InstructionMem(string program_input){
     while( i.getOpcode() != UNDEFINED){
         // instruction = i.getEncoding(); //instruction from assembly file
         add(memAddress, i); //add the instruction at corresponding memory location to hashtable
-        memAddress += 4; //incrememnt memAddress by 4 bytes
+        long adLong = stol(memAddress.substr(2), nullptr, 16);
+        adLong += 4;
+        stringstream toHex;
+        toHex << "0x" << std::hex << adLong;
+        memAddress = toHex.str();
+        // memAddress += 4; //incrememnt memAddress by 4 bytes
         i = parser->getNextInstruction();
     }
     
     delete parser;
 }
-string InstructionMem::getIns(int insAddress){
+string InstructionMem::getIns(string insAddress){
     currentIn = insAddress;
     currentOut = ins.at(insAddress);
     return currentOut;
 }
 
-string InstructionMem::getInsMips(int insAddress){
+string InstructionMem::getInsMips(string insAddress){
+    currentIn = insAddress;
+    currentOut = ins.at(insAddress);
     return insMips.at(insAddress);
 }
 
-bool InstructionMem::hasIns(int insAddress){
+bool InstructionMem::hasIns(string insAddress){
     if(ins.count(insAddress)){
         return true;
     }
@@ -48,9 +55,9 @@ bool InstructionMem::hasIns(int insAddress){
 }
 
 string InstructionMem::inputs(){
-    stringstream toHex;
-    toHex << std::hex << currentIn;
-    return "0x" + toHex.str();
+    // stringstream toHex;
+    // toHex << std::hex << currentIn;
+    return currentIn;
 }
 
 string InstructionMem::toString(){
@@ -58,26 +65,26 @@ string InstructionMem::toString(){
     s += "Instruction Memmory:\n\n";
     // cout<<ins.size()<<endl;
     // s += "hahahah";
-    stringstream ss;
-    int address;
-    for(map<int, string>::iterator it = ins.begin(); it!=ins.end();++it){
-        address  = it->first;
-        ss << std::hex << address;
-        s += "0x";
-        s += ss.str();
+    // stringstream ss;
+    // string address;
+    for(map<string, string>::iterator it = ins.begin(); it!=ins.end();++it){
+        // address  = it->first;
+        // ss << std::hex << address;
+        s += it -> first;
+        // s += ss.str();
         s += " : ";
-        s += it->second;
+        s += it -> second;
         s += " (";
-        s += insMips.at(address);
+        s += insMips.at(it -> first);
         s += ')';
         s += "\n";
-        ss.clear();
-        ss.str("");
+        // ss.it -> firstr();
+        // ss.str("");
     }
     return s;
 }
 
-void InstructionMem::add(int insAddress, Instruction i){
+void InstructionMem::add(string insAddress, Instruction i){
     // cout<<"check"<<endl;
     ins[insAddress] = i.getEncoding();
     insMips[insAddress] = i.getPlain();

@@ -24,11 +24,11 @@ public:
 
 	int getSize(){return ins.size();};
 
-	string getIns(int insAddress);
+	string getIns(string insAddress);
 
-	string getInsMips(int insAddress);
+	string getInsMips(string insAddress);
 
-	bool hasIns(int insAddress);
+	bool hasIns(string insAddress);
 
 	string inputs();
 	string outputs(){return currentOut;};
@@ -37,17 +37,17 @@ public:
 	string toString();
 
 private:
-	int currentIn;
+	string currentIn;
 	string currentOut;
 	// Need a data structure here to strore all the address and instructions, not sure yet, 
 	// Let's use HashMap
 	// This is for binary
-	map<int, string> ins;
+	map<string, string> ins;
 
 	// This is for MIPS Ins
-	map<int, string> insMips;
+	map<string, string> insMips;
 
-	void add(int insAddress, Instruction i);
+	void add(string insAddress, Instruction i);
 
 };
 

@@ -1,14 +1,14 @@
 #include "MUX.h"
 
-void MUX::setInput0(int _value){
-    input0.value = _value;
-    input0.type = 0;
-}
+// void MUX::setInput0(int _value){
+//     input0.value = _value;
+//     input0.type = 0;
+// }
 
-void MUX::setInput1(int _value){
-    input1.value = _value;
-    input1.type = 0;
-}
+// void MUX::setInput1(int _value){
+//     input1.value = _value;
+//     input1.type = 0;
+// }
 
 void MUX::setInput0(string _content){
     input0.content = _content;

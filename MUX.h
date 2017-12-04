@@ -17,8 +17,8 @@ struct input{
 public:
 
 	MUX(){};
-	void setInput0(int _value);
-	void setInput1(int _value);
+	// void setInput0(int _value);
+	// void setInput1(int _value);
 	void setInput0(string _content);
 	void setInput1(string _content);
 	void compute(int choose);

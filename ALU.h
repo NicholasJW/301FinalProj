@@ -9,8 +9,8 @@ class ALU{
 public:
 	ALU();
 
-	void setInputs(int first, int second);
-	void setInputs(long first, long second){};
+	// void setInputs(int first, int second);
+	void setInputs(string first, string second);
 
 	// Two calculate methods, with or without control signals
 	void calculate(string _control);
@@ -19,12 +19,15 @@ public:
 	string inputs();
 	string outputs();
 	string getZeroValue(){return zeroValue;};
-	int getResult(){return result;};
+	string getResult(){return result;};
 	string getControlSignal(){return control;};
 private:
-	int input1;
-	int input2;
-	int result;
+	string input1;
+	string input2;
+	long one;
+    long two;
+	string result;
+	long calc;
 	string control;
 	string zeroValue;
 

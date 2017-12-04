@@ -1,7 +1,7 @@
 #ifndef __PROGRAMCOUNTER_H__
 #define __PROGRAMCOUNTER_H__
 #include <string>
-#include <sstream>
+// #include <sstream>
 
 using namespace std;
 
@@ -10,9 +10,9 @@ public:
 
 	ProgramCounter();
 
-	int getCurrentAddress(){return cr;};
+	string getCurrentAddress(){return cr;};
 
-	void setCurrentAddress(int _cr){cr = _cr;};
+	void setCurrentAddress(string _cr){cr = _cr;};
 
 	string inputs();
 
@@ -20,8 +20,8 @@ public:
 
 private:
 
-	std::stringstream toHex;
-	int cr;
+	// std::stringstream toHex;
+	string cr;
 
 };
 #endif

@@ -16,18 +16,17 @@ void Processor::run(){
     
     initializeLines();
     int insNum = 1; //Indicating which instruction we are running
-    int currentInsAddress = stoi("40000", nullptr, 16);
+    string currentInsAddress;
     string currentIns;
+    stringstream toHex;
     while(true){
-        // cout << "check" << endl;
-        
         // Get current instruction address
         currentInsAddress = pc.getCurrentAddress();
         if(!imem.hasIns(currentInsAddress)){
             break;
         }
         // ALU 1
-        alu1.setInputs(currentInsAddress, 4);
+        alu1.setInputs(currentInsAddress, "0x4");
         alu1.calculate();
         // Instruction memory
         currentIns = imem.getIns(currentInsAddress);
@@ -51,25 +50,44 @@ void Processor::run(){
         // SLTwo 2:
         slt2.setInput(se.outputs());
         slt2.compute();
+        // cout << "Check" << endl;
         // ALU 2:
-        alu2.setInputs(alu1.getResult(), std::stoi(slt2.outputs(), nullptr, 2));
+        // Get a hex str
+        // cout << slt2.outputs() << endl;
+        long alu2SecondInput = stol(slt2.outputs(), nullptr, 2);
+        toHex.str("");
+        toHex.clear();
+        toHex << std::hex << alu2SecondInput;
+        string alu2SeStr = "0x" + toHex.str();
+        // cout << alu1.getResult() << endl;
+        // cout << alu2SeStr << endl;
+        // cout << "Check" << endl;
+        alu2.setInputs(alu1.getResult(), alu2SeStr);
         alu2.calculate();
         // MUX 2:
-        mux2.setInput0(regs.getRead2());
-        mux2.setInput1(stoi(se.outputs(), nullptr, 2));
+        long mux2SecondInput = stol(se.outputs(), nullptr, 2);
+        
+        toHex.str("");
+        toHex.clear();
+        toHex << "0x" << std::hex << mux2SecondInput;
+        string mux2SeStr = toHex.str();
+        mux2.setInput0("0x" + regs.getRead2());
+        mux2.setInput1(mux2SeStr);
+        // cout << ALUSrc.getValue();
         mux2.compute(stoi(ALUSrc.getValue().substr(2), nullptr, 16));
+        
         // ALU Control:
         ac.setControl(ALUOp1.getValue(), ALUOp2.getValue());
         ac.setFuncCode(currentIns.substr(26));
         ac.compute();
         ALUline.setValue(ac.outputs());
-        cout << "Check" << endl;
+        // cout << "Check" << endl;
         // ALU 3:
         if (jump.getValue() == "0x0"){
-            cout << regs.getRead1() << "  " << regs.getRead2() << endl;
-            cout << mux2.outputs() << endl;
-            alu3.setInputs(stol(regs.getRead1(), nullptr, 16), stol(mux2.outputs(), nullptr, 16));
-            cout << "check" << endl;
+            // cout << regs.getRead1() << "  " << regs.getRead2() << endl;
+            // cout << mux2.outputs() << endl;
+            alu3.setInputs("0x" + regs.getRead1(), "0x" + regs.getRead2());
+            // cout << "check" << endl;
             alu3.calculate(ALUline.getValue());
             zeroLine.setValue(alu3.getZeroValue());
         }
@@ -85,21 +103,31 @@ void Processor::run(){
         }
         mux5.compute(mux5Control);
         // MUX 4:
-        // COnvert to binary
-        string alu1Result = std::bitset< 32 >(alu1.getResult()).to_string();
+        // Convert to binary
+        toHex.str("");
+        toHex.clear();
+        toHex << std::hex << alu1.getResult();
+        unsigned toBinary;
+        toHex >> toBinary;
+        std::bitset <32> b(toBinary);
+        string alu1Result = b.to_string();
         // cout << alu1Result << endl;
         alu1Result = alu1Result.substr(0,4)+slt1.outputs();
-        // back to int
-        mux4.setInput1(stoi(alu1Result, nullptr, 2));
+        long mux4In1 = stol(alu1Result, nullptr, 2);
+        toHex.str("");
+        toHex.clear();
+        toHex << "0x" << std::hex << mux4In1;
+        // Need hex string
+        mux4.setInput1(toHex.str());
         mux4.setInput0(mux5.outputs());
         mux4.compute(stoi(jump.getValue().substr(2), nullptr, 16));
         // Write back to pc
-        pc.setCurrentAddress(stoi(mux4.outputs().substr(2), nullptr, 16));
+        pc.setCurrentAddress(mux4.outputs());
         // Memory
-        stringstream toHex;
-        toHex << "0x" << std::hex << alu3.getResult();
-        dmem.setAddress(toHex.str());
-        toHex.str("");
+        // stringstream toHex;
+        // toHex << "0x" << std::hex << alu3.getResult();
+        dmem.setAddress(alu3.getResult());
+        // toHex.str("");
         dmem.setWriteData("0x" + regs.getRead2());
         if (memRead.getValue() == "0x1"){
             dmem.readMem();
@@ -108,9 +136,9 @@ void Processor::run(){
             dmem.writeMem();
         }
         // MUX 3
-        toHex << "0x" << std::hex << alu3.getResult();
-        mux3.setInput0(toHex.str());
-        toHex.str("");
+        // toHex << "0x" << std::hex << alu3.getResult();
+        mux3.setInput0(alu3.getResult());
+        // toHex.str("");
         mux3.setInput1(dmem.outputs());
         mux3.compute(stoi(jump.getValue().substr(2), nullptr, 16));
         // Writing back to Registers
