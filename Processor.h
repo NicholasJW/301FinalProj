@@ -89,6 +89,8 @@ private:
 	// Write to file or cout
 	void printOut();
 
+	// Show the progress for single_step_mode
+	string titleLine;
 	// Methods to update stringstream with different output
 	void linesOutput();
 	void unitOutput();

@@ -11,14 +11,32 @@ void ALU::setInputs(int first, int second){
     input2 = second;
 }
 
-void ALU::calculate(string control){
-    // TODO different calculation based on different OPCODE
-    // return result;
+void ALU::calculate(string _control){
+    control = _control;
+    if(control == "0x2"){
+        result = input1 + input2;
+    }else if(control == "0x6"){
+        result = input1 - input2;
+    }else{
+        cerr << "Wrong ALU Control signal" << endl;
+        exit(1);
+    }
+
+    if(result == 0){
+        zeroValue = "0x1";
+    }else{
+        zeroValue = "0x0";
+    }
+    
 }
 
 void ALU::calculate(){
     result = input1 + input2;
-    // return result;
+    if(result == 0){
+        zeroValue = "0x1";
+    }else{
+        zeroValue = "0x0";
+    }
 }
 
 string ALU::inputs(){

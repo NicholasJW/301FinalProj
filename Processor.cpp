@@ -36,13 +36,32 @@ void Processor::run(){
         mux1.setInput0(currentIns.substr(11,5));
         // cout << "CHECK HERE " <<currentIns.substr(11,5);
         mux1.setInput1(currentIns.substr(16,5));
-        mux1.compute(stoi(regDst.getValue().substr(2)));
+        mux1.compute(stoi(regDst.getValue().substr(2), nullptr, 16));
         // Read from register memory:
         regs.setRead(std::stoi(currentIns.substr(6,5), nullptr, 2), std::stoi(currentIns.substr(11,5), nullptr, 2));
         regs.read();
         // Sign extend
         se.setInput(currentIns.substr(16));
         se.compute();
+        // SLTwo 2:
+        slt2.setInput(se.outputs());
+        slt2.compute();
+        // ALU 2:
+        alu2.setInputs(alu1.getResult(), std::stoi(slt2.outputs(), nullptr, 2));
+        alu2.calculate();
+        // MUX 2:
+        mux2.setInput0(regs.getRead2());
+        mux2.setInput1("0x" + std::to_string(::stoi(se.outputs(), nullptr, 2)));
+        mux2.compute(stoi(ALUSrc.getValue().substr(2), nullptr, 16));
+        // ALU Control:
+        ac.setControl(ALUOp1.getValue(), ALUOp2.getValue());
+        ac.setFuncCode(currentIns.substr(26));
+        ac.compute();
+        ALUline.setValue(ac.outputs());
+        // ALU 3:
+        alu3.setInputs(stoi(regs.getRead1(), nullptr, 16), stoi(mux2.outputs(), nullptr, 16));
+        alu3.calculate(ALUline.getValue());
+        zeroLine.setValue(alu3.getZeroValue());
 
         // Writing back to Registers
         // Debugging DELETE!!!!!!!
@@ -57,6 +76,7 @@ void Processor::run(){
         // cout << currentIns << endl;
         ss << std::to_string(insNum) << " : " << imem.getInsMips(currentInsAddress) << '\n' << currentIns << '\n';
 
+        titleLine = ss.str();
         // Appending all the outputs
         linesOutput();
         unitOutput();
@@ -73,7 +93,8 @@ void Processor::run(){
             cin.get();
         }
 
-        currentInsAddress += 4;
+        // Manually get new address, only debugging
+        // currentInsAddress += 4;
     }
 
     ofs.close();
@@ -113,6 +134,7 @@ void Processor::linesOutput(){
     ss << "value of all control lines:\n";
     ss << regDst.getName() << " : " << regDst.getValue() << '\n';
     ss << jump.getName() << " : " << jump.getValue() << '\n';
+    ss << branch.getName() << " : " << branch.getValue() << '\n';
     ss << memRead.getName() << " : " << memRead.getValue() << '\n';
     ss << memtoReg.getName() << " : " << memtoReg.getValue() << '\n';
     ss << ALUOp1.getName() << " : " << ALUOp1.getValue() << '\n';
@@ -130,10 +152,16 @@ void Processor::unitOutput(){
     ss << "ProgramCounter :\n" << "Input (instruction address): "<< pc.inputs() << '\n' << "Output (instruction address): "<< pc.outputs() << "\n\n";
     ss << "Instruction Memory:\n" << "Input (instruction address): "<< imem.inputs() << '\n' << "Output (Binary instruction): "<< imem.outputs() << "\n\n";
     ss << "ALU 1:\n" << "Inputs: \n"<< alu1.inputs() << "Output: \n"<< alu1.outputs() << "\n";
-    ss << "Shift left two 1:\n" << "Input : "<< slt1.inputs() << '\n' << "Output: "<< slt1.outputs() << "\n\n";
+    ss << "Shift left two 1:\n" << "Input : " << slt1.inputs() << '\n' << "Output: "<< slt1.outputs() << "\n\n";
+    ss << "Main Contral: \n" << "Input: opcode " << mc.inputs() << "\nOuput: please see the first 10 lines of control lines value. "<<"\n\n";
     ss << "Mux 1:\n" << mux1.inputs() << '\n' << "Output: "<< mux1.outputs() << "\n\n";
     ss << "Registers memory: \n" << regs.inputs() << '\n' << regs.outputs() << "\n\n";
     ss << "Sign Extend unit: \n" << "Input: " << se.inputs() << '\n' << "Output: " << se.outputs() << "\n\n";
+    ss << "Shift left two 2:\n" << "Input : " << slt2.inputs() << '\n' << "Output: "<< slt2.outputs() << "\n\n";
+    ss << "ALU 2:\n" << "Inputs: \n"<< alu2.inputs() << "Output: \n"<< alu2.outputs() << "\n";
+    ss << "Mux 2:\n" << mux2.inputs() << '\n' << "Output: 0x"<< mux2.outputs() << "\n\n";
+    ss << "ALU Control: \n" << ac.inputs() << '\n' << ac.outputs() <<"\n\n";
+    ss << "ALU 3:\n" << "Inputs: \n"<< alu3.inputs() << "Control signal: " << alu3.getControlSignal() << '\n' << alu3.outputs() << "Zero Value: "<< alu3.getZeroValue() << "\n\n";
 
 }
 
@@ -157,7 +185,7 @@ void Processor::printOut(){
         }
         ofs << ss.str();
         // TODO: As follow!!!
-        // cout << "This line will be replaced be a instruction in InsMem." << endl;
+        cout << titleLine << '\n';
     }else{
         cout<<ss.str()<<endl;
     }
