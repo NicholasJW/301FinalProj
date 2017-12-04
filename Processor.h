@@ -47,6 +47,7 @@ private:
 
 	ControlLine regDst;
 	ControlLine jump;
+	ControlLine branch;
 	ControlLine memRead;
 	ControlLine memtoReg;
 	ControlLine ALUOp1;

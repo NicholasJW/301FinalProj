@@ -13,7 +13,6 @@ public:
 
 	MainControl();
 
-	// Given an opcode input, sets 9 control signals (in hex) as strings
 	void setOpcode(string _opcode);
 
 	// This function also used as outputs().
@@ -22,7 +21,7 @@ public:
 	string inputs(){return opcode;};
 
 private:
-	// Opcode to be used as input
+
 	string opcode;
 
 	// This is the output which is a string vector having length 9.

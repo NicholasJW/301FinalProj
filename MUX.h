@@ -35,7 +35,7 @@ private:
 
 	// int outType = -1;
 	// int outInt = -304;
-	string output = "FLORA";
+	string output = "ERROR";
 };
 
 #endif

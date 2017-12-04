@@ -83,6 +83,7 @@ void Processor::run(){
 void Processor::initializeLines(){
     regDst.setName("regDst");
     jump.setName("jump");
+    branch.setName("branch");
     memRead.setName("memRead");
     memtoReg.setName("memtoReg");
     ALUOp1.setName("ALUOp1");
@@ -97,13 +98,14 @@ void Processor::initializeLines(){
 void Processor::setMainSignals(vector<string> list){
     regDst.setValue(list.at(0));
     jump.setValue(list.at(1));
-    memRead.setValue(list.at(2));
-    memtoReg.setValue(list.at(3));
-    ALUOp1.setValue(list.at(4));
-    ALUOp2.setValue(list.at(5));
-    memWrite.setValue(list.at(6));
-    ALUSrc.setValue(list.at(7));
-    regWrite.setValue(list.at(8));
+    branch.setValue(list.at(2));
+    memRead.setValue(list.at(3));
+    memtoReg.setValue(list.at(4));
+    ALUOp1.setValue(list.at(5));
+    ALUOp2.setValue(list.at(6));
+    memWrite.setValue(list.at(7));
+    ALUSrc.setValue(list.at(8));
+    regWrite.setValue(list.at(9));
 }
 
 void Processor::linesOutput(){
