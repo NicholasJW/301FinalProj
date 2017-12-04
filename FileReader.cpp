@@ -4,6 +4,9 @@
 
 FileReader::FileReader(string filename){ // Create the fstream with the target file (No default constructor)
 
+// Debug Line
+std::cout << "Filereader started.\n";
+
 // VARIABLES
 //=========================================================================================================//
     unordered_map<string,string> vars; // Unordered map (Hash map) of settings
@@ -64,6 +67,10 @@ FileReader::FileReader(string filename){ // Create the fstream with the target f
     
 
 //=========================================================================================================//
+
+// Debug Line
+std::cout << "Filereader finished.\n";
+
 }
 
 // GET SETTING METHODS
