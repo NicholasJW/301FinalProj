@@ -21,35 +21,54 @@ void Processor::run(){
     stringstream toHex;
     while(true){
         // Get current instruction address
+        // Write back to pc
+        if (insNum != 1)
+            pc.setCurrentAddress(mux4.outputs());
         currentInsAddress = pc.getCurrentAddress();
         if(!imem.hasIns(currentInsAddress)){
             break;
         }
+        if(is_debug)
+            cout << "ProgramCounter Done" << endl;
         // ALU 1
         alu1.setInputs(currentInsAddress, "0x4");
         alu1.calculate();
+        if(is_debug)
+            cout << "ALU 1" << endl;
         // Instruction memory
         currentIns = imem.getIns(currentInsAddress);
+        if(is_debug)
+            cout << "Instruction Memory Done" << endl;
         // SLTwo 1:
         slt1.setInput(currentIns.substr(6));
         slt1.compute();
+        if(is_debug)
+            cout << "Shift Left Two 1 Done" << endl;
         // Get control signals from main control
         mc.setOpcode(currentIns.substr(0,6));
         setMainSignals(mc.getControlSignals());
+        if(is_debug)
+            cout << "Main Control Done" << endl;
         // Mux 1:
         mux1.setInput0(currentIns.substr(11,5));
         // cout << "CHECK HERE " <<currentIns.substr(11,5);
         mux1.setInput1(currentIns.substr(16,5));
         mux1.compute(stoi(regDst.getValue().substr(2), nullptr, 16));
+        if(is_debug)
+            cout << "Mutiplexer 1 Done" << endl;
         // Read from register memory:
         regs.setRead(std::stoi(currentIns.substr(6,5), nullptr, 2), std::stoi(currentIns.substr(11,5), nullptr, 2));
         regs.read();
         // Sign extend
         se.setInput(currentIns.substr(16));
         se.compute();
+        if(is_debug)
+            cout << "Sign Extend Done" << endl;
         // SLTwo 2:
         slt2.setInput(se.outputs());
         slt2.compute();
+        if(is_debug)
+            cout << "Shift Left Two 2 Done" << endl;
         // cout << "Check" << endl;
         // ALU 2:
         // Get a hex str
@@ -64,6 +83,8 @@ void Processor::run(){
         // cout << "Check" << endl;
         alu2.setInputs(alu1.getResult(), alu2SeStr);
         alu2.calculate();
+        if(is_debug)
+            cout << "ALU 2 Done" << endl;
         // MUX 2:
         long mux2SecondInput = stol(se.outputs(), nullptr, 2);
         toHex.str("");
@@ -76,6 +97,8 @@ void Processor::run(){
         // cout << "ALU SRC: " << ALUSrc.getValue()<< endl;
         mux2.compute(stoi(ALUSrc.getValue().substr(2), nullptr, 16));
         // cout << mux2.outputs() << endl;
+        if(is_debug)
+            cout << "Multiplexer 2 Done" << endl;
 
         // ALU Control:
         ac.setControl(ALUOp1.getValue(), ALUOp2.getValue());
@@ -84,16 +107,18 @@ void Processor::run(){
         ac.compute();
         ALUline.setValue(ac.outputs());
         // cout << "Check" << endl;
+        if(is_debug)
+            cout << "ALU Control Done" << endl;
         // ALU 3:
-        if (jump.getValue() == "0x0"){
-            // cout << regs.getRead1() << "  " << regs.getRead2() << endl;
-            // cout << mux2.outputs() << endl;
-            // cout << regs.getRead1() << endl;
-            alu3.setInputs("0x" + regs.getRead1(), "0x" + mux2.outputs());
-            // cout << "check" << endl;
-            alu3.calculate(ALUline.getValue());
-            zeroLine.setValue(alu3.getZeroValue());
-        }
+        // cout << regs.getRead1() << "  " << regs.getRead2() << endl;
+        // cout << mux2.outputs() << endl;
+        // cout << regs.getRead1() << endl;
+        alu3.setInputs("0x" + regs.getRead1(), "0x" + mux2.outputs());
+        // cout << "check" << endl;
+        alu3.calculate(ALUline.getValue());
+        zeroLine.setValue(alu3.getZeroValue());
+        if(is_debug)
+            cout << "ALU 3 Done" << endl;
         // MUX 5:
         mux5.setInput0(alu1.getResult());
         mux5.setInput1(alu2.getResult());
@@ -105,6 +130,8 @@ void Processor::run(){
             mux5Control = 0;
         }
         mux5.compute(mux5Control);
+        if(is_debug)
+            cout << "Multiplexer 5 Done" << endl;
         // MUX 4:
         // Convert to binary
         toHex.str("");
@@ -124,8 +151,8 @@ void Processor::run(){
         mux4.setInput1(toHex.str());
         mux4.setInput0(mux5.outputs());
         mux4.compute(stoi(jump.getValue().substr(2), nullptr, 16));
-        // Write back to pc
-        pc.setCurrentAddress(mux4.outputs());
+        if(is_debug)
+            cout << "Multiplexer 4 Done" << endl;
         // Memory
         // stringstream toHex;
         // toHex << "0x" << std::hex << alu3.getResult();
@@ -139,16 +166,22 @@ void Processor::run(){
         if (memWrite.getValue() == "0x1"){
             dmem.writeMem();
         }
+        if(is_debug)
+            cout << "Data Memory Done" << endl;
         // MUX 3
         // toHex << "0x" << std::hex << alu3.getResult();
         mux3.setInput0(alu3.getResult());
         // toHex.str("");
         mux3.setInput1(dmem.outputs());
         mux3.compute(stoi(memtoReg.getValue().substr(2), nullptr, 16));
+        if(is_debug)
+            cout << "Multiplexer 3 Done" << endl;
         // Writing back to Registers
         regs.setSignal(regWrite.getValue());
         regs.setWrite(std::stoi(mux1.outputs(), nullptr, 2), mux3.outputs());
         regs.write();
+        if(is_debug)
+            cout << "Register write back Done" << endl;
 
         // Some printing jobs
         ss << "\n============================\n\n";

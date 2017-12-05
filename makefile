@@ -1,6 +1,5 @@
 #this is a makefile
 
-#TODO : Keep adding objects to this macro
 OBJS = main.o FileReader.o InstructionMem.o ASMParser.o Instruction.o Opcode.o RegisterTable.o DataMem.o Registers.o Processor.o ControlLine.o ProgramCounter.o ALU.o MUX.o SLTwo.o MainControl.o SignExtend.o ALUControl.o
 
 CC = g++ -std=c++11
@@ -17,7 +16,6 @@ main.o : main.cpp FileReader.o InstructionMem.o DataMem.o Registers.o Processor.
 FileReader.o : FileReader.cpp FileReader.h
 	$(CC) $(CFLAGS) FileReader.cpp
 
-#TODO : Keep adding objects to the dependency of Instruction Memory object
 InstructionMem.o : InstructionMem.h InstructionMem.cpp ASMParser.o
 	$(CC) $(CFLAGS) InstructionMem.cpp
 
