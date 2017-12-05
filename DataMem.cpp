@@ -43,7 +43,7 @@ void DataMem::write(string address, string content){
 
 string DataMem::toString(){
 	string s = "\n\n======================================\n";
-    s += "Data Memmory:\n\n";
+    s += "Data Memmory:\n(All value in hex)\n";
 	map<string, string>::iterator it = data.begin();
 	while(it!=data.end()){
 		// if(it->first == ""){

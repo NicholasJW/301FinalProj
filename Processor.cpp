@@ -221,6 +221,7 @@ void Processor::run(){
      
 }
 
+// Initialize all the control lines
 void Processor::initializeLines(){
     regDst.setName("regDst");
     jump.setName("jump");
@@ -236,6 +237,7 @@ void Processor::initializeLines(){
     zeroLine.setName("zeroLine");
 }
 
+// Set values for main control lines
 void Processor::setMainSignals(vector<string> list){
     regDst.setValue(list.at(0));
     jump.setValue(list.at(1));
@@ -249,6 +251,7 @@ void Processor::setMainSignals(vector<string> list){
     regWrite.setValue(list.at(9));
 }
 
+// Out put control lines value
 void Processor::linesOutput(){
     ss << "\n==========================\n";
     ss << "value of all control lines:\n";
@@ -266,6 +269,7 @@ void Processor::linesOutput(){
     ss << zeroLine.getName() << " : " << zeroLine.getValue() << "\n\n";
 }
 
+// INput and output for each unit
 void Processor::unitOutput(){
     ss << "==========================\n";
     ss << "Input and output of all units:\n\n";
@@ -288,6 +292,7 @@ void Processor::unitOutput(){
     ss << "Mux 3:\n" << mux3.inputs() << '\n' << "Output: "<< mux3.outputs() << "\n\n";
 }
 
+// Output all the memory content
 void Processor::dataOutput(){
     ss << "==========================\n";
     ss << "All memory content:\n";
@@ -296,6 +301,7 @@ void Processor::dataOutput(){
     ss << regs.toString();
 }
 
+// Actually print out or write to file
 void Processor::printOut(){
     if(write_to_file){
         if(!ofs.is_open()){

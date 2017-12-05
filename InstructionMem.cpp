@@ -62,11 +62,7 @@ string InstructionMem::inputs(){
 
 string InstructionMem::toString(){
     string s = "\n\n======================================\n";
-    s += "Instruction Memmory:\n\n";
-    // cout<<ins.size()<<endl;
-    // s += "hahahah";
-    // stringstream ss;
-    // string address;
+    s += "Instruction Memmory:\n(All value in hex)\n";
     for(map<string, string>::iterator it = ins.begin(); it!=ins.end();++it){
         // address  = it->first;
         // ss << std::hex << address;

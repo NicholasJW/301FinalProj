@@ -60,7 +60,7 @@ void Registers::set(int num, string value){
 
 string Registers::toString(){
     string s = "\n\n======================================\n";
-    s += "Registers:\n\n";
+    s += "Registers:\n(All value in hex)\n";
     for(std::size_t i=0; i<(sizeof(regs)/sizeof(*regs)); i++){
         s += std::to_string(i) + ":" + regs[i] + '\n';
     }
