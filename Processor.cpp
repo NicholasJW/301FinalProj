@@ -26,6 +26,10 @@ void Processor::run(){
             pc.setCurrentAddress(mux4.outputs());
         currentInsAddress = pc.getCurrentAddress();
         if(!imem.hasIns(currentInsAddress)){
+            if (is_debug){
+                cout << "End of Instruction Memory" << endl;
+                cout << currentInsAddress << endl;
+            }
             break;
         }
         if(is_debug)
@@ -42,6 +46,7 @@ void Processor::run(){
         // SLTwo 1:
         slt1.setInput(currentIns.substr(6));
         slt1.compute();
+        // cout << slt1.outputs() << endl;
         if(is_debug)
             cout << "Shift Left Two 1 Done" << endl;
         // Get control signals from main control
@@ -137,12 +142,14 @@ void Processor::run(){
         toHex.str("");
         toHex.clear();
         toHex << std::hex << alu1.getResult();
+        // cout << toHex.str() << endl;
         unsigned toBinary;
         toHex >> toBinary;
         std::bitset <32> b(toBinary);
         string alu1Result = b.to_string();
         // cout << alu1Result << endl;
         alu1Result = alu1Result.substr(0,4)+slt1.outputs();
+        // cout << alu1Result << endl;
         long mux4In1 = stol(alu1Result, nullptr, 2);
         toHex.str("");
         toHex.clear();
@@ -272,7 +279,7 @@ void Processor::unitOutput(){
     ss << "Sign Extend unit: \n" << "Input: " << se.inputs() << '\n' << "Output: " << se.outputs() << "\n\n";
     ss << "Shift left two 2:\n" << "Input : " << slt2.inputs() << '\n' << "Output: "<< slt2.outputs() << "\n\n";
     ss << "ALU 2:\n" << "Inputs: \n"<< alu2.inputs() << "Output: \n"<< alu2.outputs() << "\n";
-    ss << "Mux 2:\n" << mux2.inputs() << '\n' << "Output: 0x"<< mux2.outputs() << "\n\n";
+    ss << "Mux 2:\n" << mux2.inputs() << '\n' << "Output: "<< mux2.outputs() << "\n\n";
     ss << "ALU Control: \n" << ac.inputs() << '\n' << "Output: "<< ac.outputs() <<"\n\n";
     ss << "ALU 3:\n" << "Inputs: \n"<< alu3.inputs() << "Control signal: " << alu3.getControlSignal() << '\n' << alu3.outputs() << "Zero Value: "<< alu3.getZeroValue() << "\n\n";
     ss << "Mux 5:\n" << mux5.inputs() << '\n' << "Output: "<< mux5.outputs() << "\n\n";

@@ -1,0 +1,127 @@
+
+============================
+
+1 : beq	$1, $2, 0x200
+00010000001000100000001000000000
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x1
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x0
+ALUOp2 : 0x1
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x0
+ALUline : 0x6
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40000
+Output (instruction address): 0x40000
+
+Instruction Memory:
+Input (instruction address): 0x40000
+Output (Binary instruction): 00010000001000100000001000000000
+
+ALU 1:
+Inputs: 
+First input: 0x40000
+Second input: 0x4
+Output: 
+Output: 0x40004
+
+Shift left two 1:
+Input : 00001000100000001000000000
+Output: 0000100010000000100000000000
+
+Main Contral: 
+Input: opcode 000100
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 00010
+  Input 1: 00000
+Output: 00010
+
+Registers memory: 
+Inputs: 
+First read register: $1
+Second read register: $2
+Write register: $2
+Write data: 0x19a8c88
+Control signal (regWrite): 0x0
+Outputs: 
+First reading data: 0x305f7ea1
+Second reading data: 0x2ec4f219
+
+Sign Extend unit: 
+Input: 0000001000000000
+Output: 00000000000000000000001000000000
+
+Shift left two 2:
+Input : 00000000000000000000001000000000
+Output: 00000000000000000000100000000000
+
+ALU 2:
+Inputs: 
+First input: 0x40004
+Second input: 0x800
+Output: 
+Output: 0x40804
+
+Mux 2:
+Inputs: 
+  Input 0: 0x2ec4f219
+  Input 1: 0x200
+Output: 0x2ec4f219
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x1
+ Function code: 000000
+Output: 0x6
+
+ALU 3:
+Inputs: 
+First input: 0x305f7ea1
+Second input: 0x0x2ec4f219
+Control signal: 0x6
+Output: 0x19a8c88
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40004
+  Input 1: 0x40804
+Output: 0x40004
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40004
+  Input 1: 0x880800
+Output: 0x40004
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x19a8c88
+Data to write: 0x2ec4f219
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0xN/A
+
+Mux 3:
+Inputs: 
+  Input 0: 0x19a8c88
+  Input 1: 0xN/A
+Output: 0x19a8c88
+

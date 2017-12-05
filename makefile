@@ -37,7 +37,6 @@ DataMem.o : DataMem.cpp DataMem.h
 Registers.o : Registers.cpp Registers.h
 	$(CC) $(CFLAGS) Registers.cpp
 
-#TODO : Keep adding objects to the dependency of Processor object
 Processor.o : ControlLine.o ProgramCounter.o ALU.o MUX.o SLTwo.o MainControl.o SignExtend.o ALUControl.o Processor.cpp Processor.h
 	$(CC) $(CFLAGS) Processor.cpp
 

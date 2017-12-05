@@ -331,20 +331,21 @@ string ASMParser::itypeEncoding(Instruction i){
 string ASMParser::jtypeEncoding(Instruction i){
   Opcode opcode = i.getOpcode();
   int addressDecimal = i.getImmediate();
+  // cout << std::hex << addressDecimal << endl;
   
   // cout << std::to_string(addressDecimal) << endl;
   OpcodeTable opTable;
   string encoding;
 
   string opcodeBinary = opTable.getOpcodeField(opcode);
-  string addressBinary = convertToBinary(addressDecimal,26);
+  string addressBinary = convertToBinary(addressDecimal,32);
+  addressBinary = addressBinary.substr(4, 26);
   // addressBinary = addressBinary.substr(0, addressBinary.size()-6); //changed from -2 to -4
   // addressBinary = addressBinary.substr(6);
   // addressBinary = "000000" + addressBinary; //changed from "00" to "0000"
   encoding = opcodeBinary + addressBinary;
   
-  return encoding;
-   
+  return encoding;  
 }
 
 //converts a decimal number to its binary equivalent and returns it as a string.
