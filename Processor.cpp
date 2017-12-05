@@ -66,16 +66,17 @@ void Processor::run(){
         alu2.calculate();
         // MUX 2:
         long mux2SecondInput = stol(se.outputs(), nullptr, 2);
-        
         toHex.str("");
         toHex.clear();
         toHex << "0x" << std::hex << mux2SecondInput;
         string mux2SeStr = toHex.str();
         mux2.setInput0("0x" + regs.getRead2());
         mux2.setInput1(mux2SeStr);
-        // cout << ALUSrc.getValue();
+        // cout << mux2SeStr << endl;
+        // cout << "ALU SRC: " << ALUSrc.getValue()<< endl;
         mux2.compute(stoi(ALUSrc.getValue().substr(2), nullptr, 16));
-        
+        // cout << mux2.outputs() << endl;
+
         // ALU Control:
         ac.setControl(ALUOp1.getValue(), ALUOp2.getValue());
         ac.setFuncCode(currentIns.substr(26));
@@ -87,7 +88,8 @@ void Processor::run(){
         if (jump.getValue() == "0x0"){
             // cout << regs.getRead1() << "  " << regs.getRead2() << endl;
             // cout << mux2.outputs() << endl;
-            alu3.setInputs("0x" + regs.getRead1(), "0x" + regs.getRead2());
+            // cout << regs.getRead1() << endl;
+            alu3.setInputs("0x" + regs.getRead1(), "0x" + mux2.outputs());
             // cout << "check" << endl;
             alu3.calculate(ALUline.getValue());
             zeroLine.setValue(alu3.getZeroValue());
@@ -128,6 +130,7 @@ void Processor::run(){
         // stringstream toHex;
         // toHex << "0x" << std::hex << alu3.getResult();
         dmem.setAddress(alu3.getResult());
+        // cout << "ALU 3 REsult " << alu3.getResult() << endl;
         // toHex.str("");
         dmem.setWriteData("0x" + regs.getRead2());
         if (memRead.getValue() == "0x1"){
@@ -141,7 +144,7 @@ void Processor::run(){
         mux3.setInput0(alu3.getResult());
         // toHex.str("");
         mux3.setInput1(dmem.outputs());
-        mux3.compute(stoi(jump.getValue().substr(2), nullptr, 16));
+        mux3.compute(stoi(memtoReg.getValue().substr(2), nullptr, 16));
         // Writing back to Registers
         regs.setSignal(regWrite.getValue());
         regs.setWrite(std::stoi(mux1.outputs(), nullptr, 2), mux3.outputs());

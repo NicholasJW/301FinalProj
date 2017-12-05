@@ -5,7 +5,7 @@
 FileReader::FileReader(string filename){ // Create the fstream with the target file (No default constructor)
 
 // Debug Line
-std::cout << "Filereader started.\n";
+// std::cout << "Filereader started.\n";
 
 // VARIABLES
 //=========================================================================================================//
@@ -69,7 +69,7 @@ std::cout << "Filereader started.\n";
 //=========================================================================================================//
 
 // Debug Line
-std::cout << "Filereader finished.\n";
+// std::cout << "Filereader finished.\n";
 
 }
 

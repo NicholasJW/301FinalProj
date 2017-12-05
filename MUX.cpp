@@ -32,7 +32,7 @@ void MUX::compute(int choose){
         if (input1.type == 0){
             out << "0x" << std::hex << input1.value;
         }else{
-            out << input0.content;
+            out << input1.content;
         }
     }
     output = out.str();

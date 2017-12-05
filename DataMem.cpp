@@ -18,6 +18,7 @@ string DataMem::outputs(){
 
 string DataMem::read(string address){
 	address = remove0x(address);
+	// cout << address << endl;
 	std::transform(address.begin(), address.end(), address.begin(), ::tolower);
 	if(data.count(address) == 1){
 		return data.at(address);
