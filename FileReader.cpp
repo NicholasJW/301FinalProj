@@ -1,5 +1,6 @@
 #include "FileReader.h"  // Header file
 #include <fstream>       // For parsing input file (ifstream)
+#include <cctype>        // For checking for whitespace
 #include <unordered_map> // For making the hash map of settings
 
 FileReader::FileReader(string filename){ // Create the fstream with the target file (No default constructor)
@@ -16,6 +17,7 @@ FileReader::FileReader(string filename){ // Create the fstream with the target f
     int index;                         // Int for holding index being checked
     string key;                        // String for holding the key
     string value;                      // String for holding the value
+    bool whitespaceIsPresent;          // Boolean representing the presence of whitespace
 //=========================================================================================================//
 
 // OPEN FSTREAM
@@ -31,6 +33,17 @@ FileReader::FileReader(string filename){ // Create the fstream with the target f
 //=========================================================================================================//
     while(true){                                               // Run loop until it is broken
         getline(ifs, line);                                    // Get the next line and store it
+
+        // Clean whitespace from line
+        whitespaceIsPresent = true;                            // Reset so check will run
+        while(whitespaceIsPresent){                            // While there is still whitespace
+            if(!isspace(line[0]) || line[0] == '\0'){          // If the first char is not whitespace
+                whitespaceIsPresent = false;                   // or is a newline end the loop
+            }else{                                             // Else...
+                line.erase(0,1);                               // Erase the first char and run again
+            }
+        }
+
         if(!ifs.eof() && (line[0] == '#' || line[0] == '\0')){ // If the line is a comment or whitespace
             //do nothing (loop again)
         }else if(!ifs.eof()){                                  // If the line isn't an eof...
