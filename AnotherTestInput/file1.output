@@ -1,0 +1,1888 @@
+
+============================
+
+1 : lw $10, 0($5)
+10001100101010100000000000000000
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x0
+memRead : 0x1
+memtoReg : 0x1
+ALUOp1 : 0x0
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x1
+regWrite : 0x1
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40000
+Output (instruction address): 0x40000
+
+Instruction Memory:
+Input (instruction address): 0x40000
+Output (Binary instruction): 10001100101010100000000000000000
+
+ALU 1:
+Inputs: 
+First input: 0x40000
+Second input: 0x4
+Output: 
+Output: 0x40004
+
+Shift left two 1:
+Input : 00101010100000000000000000
+Output: 0010101010000000000000000000
+
+Main Contral: 
+Input: opcode 100011
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01010
+  Input 1: 00000
+Output: 01010
+
+Registers memory: 
+Inputs: 
+First read register: $5
+Second read register: $10
+Write register: $10
+Write data: 0x00000004
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x10000088
+Second reading data: 0x81fb7b82
+
+Sign Extend unit: 
+Input: 0000000000000000
+Output: 00000000000000000000000000000000
+
+Shift left two 2:
+Input : 00000000000000000000000000000000
+Output: 00000000000000000000000000000000
+
+ALU 2:
+Inputs: 
+First input: 0x40004
+Second input: 0x0
+Output: 
+Output: 0x40004
+
+Mux 2:
+Inputs: 
+  Input 0: 0x81fb7b82
+  Input 1: 0x0
+Output: 0x0
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x0
+ Function code: 000000
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0x10000088
+Second input: 0x0x0
+Control signal: 0x2
+Output: 0x10000088
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40004
+  Input 1: 0x40004
+Output: 0x40004
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40004
+  Input 1: 0x2a80000
+Output: 0x40004
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x10000088
+Data to write: 0x81fb7b82
+ Control Signals: 
+ MemRead: 0x1
+ MemWrite: 0x0
+ Ouput: 0x00000004
+
+Mux 3:
+Inputs: 
+  Input 0: 0x10000088
+  Input 1: 0x00000004
+Output: 0x00000004
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : fffffffe
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:305f7ea1
+2:2ec4f219
+3:c57b54ba
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:ce7d0a9b
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+2 : lw $11, 0($6) 
+10001100110010110000000000000000
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x0
+memRead : 0x1
+memtoReg : 0x1
+ALUOp1 : 0x0
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x1
+regWrite : 0x1
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40004
+Output (instruction address): 0x40004
+
+Instruction Memory:
+Input (instruction address): 0x40004
+Output (Binary instruction): 10001100110010110000000000000000
+
+ALU 1:
+Inputs: 
+First input: 0x40004
+Second input: 0x4
+Output: 
+Output: 0x40008
+
+Shift left two 1:
+Input : 00110010110000000000000000
+Output: 0011001011000000000000000000
+
+Main Contral: 
+Input: opcode 100011
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01011
+  Input 1: 00000
+Output: 01011
+
+Registers memory: 
+Inputs: 
+First read register: $6
+Second read register: $11
+Write register: $11
+Write data: 0x00000003
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x10000084
+Second reading data: 0xce7d0a9b
+
+Sign Extend unit: 
+Input: 0000000000000000
+Output: 00000000000000000000000000000000
+
+Shift left two 2:
+Input : 00000000000000000000000000000000
+Output: 00000000000000000000000000000000
+
+ALU 2:
+Inputs: 
+First input: 0x40008
+Second input: 0x0
+Output: 
+Output: 0x40008
+
+Mux 2:
+Inputs: 
+  Input 0: 0xce7d0a9b
+  Input 1: 0x0
+Output: 0x0
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x0
+ Function code: 000000
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0x10000084
+Second input: 0x0x0
+Control signal: 0x2
+Output: 0x10000084
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40008
+  Input 1: 0x40008
+Output: 0x40008
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40008
+  Input 1: 0x32c0000
+Output: 0x40008
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x10000084
+Data to write: 0xce7d0a9b
+ Control Signals: 
+ MemRead: 0x1
+ MemWrite: 0x0
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0x10000084
+  Input 1: 0x00000003
+Output: 0x00000003
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : fffffffe
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:305f7ea1
+2:2ec4f219
+3:c57b54ba
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+3 : add $1, $10, $11
+00000001010010110000100000100000
+
+==========================
+value of all control lines:
+regDst : 0x1
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x1
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x1
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40008
+Output (instruction address): 0x40008
+
+Instruction Memory:
+Input (instruction address): 0x40008
+Output (Binary instruction): 00000001010010110000100000100000
+
+ALU 1:
+Inputs: 
+First input: 0x40008
+Second input: 0x4
+Output: 
+Output: 0x4000c
+
+Shift left two 1:
+Input : 01010010110000100000100000
+Output: 0101001011000010000010000000
+
+Main Contral: 
+Input: opcode 000000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01011
+  Input 1: 00001
+Output: 00001
+
+Registers memory: 
+Inputs: 
+First read register: $10
+Second read register: $11
+Write register: $1
+Write data: 0x7
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x00000004
+Second reading data: 0x00000003
+
+Sign Extend unit: 
+Input: 0000100000100000
+Output: 00000000000000000000100000100000
+
+Shift left two 2:
+Input : 00000000000000000000100000100000
+Output: 00000000000000000010000010000000
+
+ALU 2:
+Inputs: 
+First input: 0x4000c
+Second input: 0x2080
+Output: 
+Output: 0x4208c
+
+Mux 2:
+Inputs: 
+  Input 0: 0x00000003
+  Input 1: 0x820
+Output: 0x00000003
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x1
+ ALUOp2: 0x0
+ Function code: 100000
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0x00000004
+Second input: 0x0x00000003
+Control signal: 0x2
+Output: 0x7
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x4000c
+  Input 1: 0x4208c
+Output: 0x4000c
+
+Mux 4:
+Inputs: 
+  Input 0: 0x4000c
+  Input 1: 0x52c2080
+Output: 0x4000c
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x7
+Data to write: 0x00000003
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0x7
+  Input 1: 0x00000003
+Output: 0x7
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : fffffffe
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:7
+2:2ec4f219
+3:c57b54ba
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+4 : sub $2, $11, $10 
+00000001011010100001000000100010
+
+==========================
+value of all control lines:
+regDst : 0x1
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x1
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x1
+ALUline : 0x6
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x4000c
+Output (instruction address): 0x4000c
+
+Instruction Memory:
+Input (instruction address): 0x4000c
+Output (Binary instruction): 00000001011010100001000000100010
+
+ALU 1:
+Inputs: 
+First input: 0x4000c
+Second input: 0x4
+Output: 
+Output: 0x40010
+
+Shift left two 1:
+Input : 01011010100001000000100010
+Output: 0101101010000100000010001000
+
+Main Contral: 
+Input: opcode 000000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01010
+  Input 1: 00010
+Output: 00010
+
+Registers memory: 
+Inputs: 
+First read register: $11
+Second read register: $10
+Write register: $2
+Write data: 0xffffffff
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x00000003
+Second reading data: 0x00000004
+
+Sign Extend unit: 
+Input: 0001000000100010
+Output: 00000000000000000001000000100010
+
+Shift left two 2:
+Input : 00000000000000000001000000100010
+Output: 00000000000000000100000010001000
+
+ALU 2:
+Inputs: 
+First input: 0x40010
+Second input: 0x4088
+Output: 
+Output: 0x44098
+
+Mux 2:
+Inputs: 
+  Input 0: 0x00000004
+  Input 1: 0x1022
+Output: 0x00000004
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x1
+ ALUOp2: 0x0
+ Function code: 100010
+Output: 0x6
+
+ALU 3:
+Inputs: 
+First input: 0x00000003
+Second input: 0x0x00000004
+Control signal: 0x6
+Output: 0xffffffff
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40010
+  Input 1: 0x44098
+Output: 0x40010
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40010
+  Input 1: 0x5a84088
+Output: 0x40010
+
+Data Memory: 
+Inputs: 
+Memory Address: 0xffffffff
+Data to write: 0x00000004
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0xffffffff
+  Input 1: 0x00000003
+Output: 0xffffffff
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : fffffffe
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:7
+2:ffffffff
+3:c57b54ba
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+5 : addi $2, $2, 6  
+00100000010000100000000000000110
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x0
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x1
+regWrite : 0x1
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40010
+Output (instruction address): 0x40010
+
+Instruction Memory:
+Input (instruction address): 0x40010
+Output (Binary instruction): 00100000010000100000000000000110
+
+ALU 1:
+Inputs: 
+First input: 0x40010
+Second input: 0x4
+Output: 
+Output: 0x40014
+
+Shift left two 1:
+Input : 00010000100000000000000110
+Output: 0001000010000000000000011000
+
+Main Contral: 
+Input: opcode 001000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 00010
+  Input 1: 00000
+Output: 00010
+
+Registers memory: 
+Inputs: 
+First read register: $2
+Second read register: $2
+Write register: $2
+Write data: 0x00000005
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0xffffffff
+Second reading data: 0xffffffff
+
+Sign Extend unit: 
+Input: 0000000000000110
+Output: 00000000000000000000000000000110
+
+Shift left two 2:
+Input : 00000000000000000000000000000110
+Output: 00000000000000000000000000011000
+
+ALU 2:
+Inputs: 
+First input: 0x40014
+Second input: 0x18
+Output: 
+Output: 0x4002c
+
+Mux 2:
+Inputs: 
+  Input 0: 0xffffffff
+  Input 1: 0x6
+Output: 0x6
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x0
+ Function code: 000110
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0xffffffff
+Second input: 0x0x6
+Control signal: 0x2
+Output: 0x00000005
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40014
+  Input 1: 0x4002c
+Output: 0x40014
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40014
+  Input 1: 0x1080018
+Output: 0x40014
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x00000005
+Data to write: 0xffffffff
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0x00000005
+  Input 1: 0x00000003
+Output: 0x00000005
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : fffffffe
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:7
+2:00000005
+3:c57b54ba
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+6 : sw $2, 32($5)
+10101100101000100000000000100000
+
+==========================
+value of all control lines:
+regDst : 0x0
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x0
+ALUOp2 : 0x0
+memWrite : 0x1
+ALUSrc : 0x1
+regWrite : 0x0
+ALUline : 0x2
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40014
+Output (instruction address): 0x40014
+
+Instruction Memory:
+Input (instruction address): 0x40014
+Output (Binary instruction): 10101100101000100000000000100000
+
+ALU 1:
+Inputs: 
+First input: 0x40014
+Second input: 0x4
+Output: 
+Output: 0x40018
+
+Shift left two 1:
+Input : 00101000100000000000100000
+Output: 0010100010000000000010000000
+
+Main Contral: 
+Input: opcode 101011
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 00010
+  Input 1: 00000
+Output: 00010
+
+Registers memory: 
+Inputs: 
+First read register: $5
+Second read register: $2
+Write register: $2
+Write data: 0x100000a8
+Control signal (regWrite): 0x0
+Outputs: 
+First reading data: 0x10000088
+Second reading data: 0x00000005
+
+Sign Extend unit: 
+Input: 0000000000100000
+Output: 00000000000000000000000000100000
+
+Shift left two 2:
+Input : 00000000000000000000000000100000
+Output: 00000000000000000000000010000000
+
+ALU 2:
+Inputs: 
+First input: 0x40018
+Second input: 0x80
+Output: 
+Output: 0x40098
+
+Mux 2:
+Inputs: 
+  Input 0: 0x00000005
+  Input 1: 0x20
+Output: 0x20
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x0
+ ALUOp2: 0x0
+ Function code: 100000
+Output: 0x2
+
+ALU 3:
+Inputs: 
+First input: 0x10000088
+Second input: 0x0x20
+Control signal: 0x2
+Output: 0x100000a8
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40018
+  Input 1: 0x40098
+Output: 0x40018
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40018
+  Input 1: 0x2880080
+Output: 0x40018
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x100000a8
+Data to write: 0x00000005
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x1
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0x100000a8
+  Input 1: 0x00000003
+Output: 0x100000a8
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : 00000005
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:7
+2:00000005
+3:c57b54ba
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+7 : slt $3, $2, $10  
+00000000010010100001100000101010
+
+==========================
+value of all control lines:
+regDst : 0x1
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x1
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x1
+ALUline : 0x9
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x40018
+Output (instruction address): 0x40018
+
+Instruction Memory:
+Input (instruction address): 0x40018
+Output (Binary instruction): 00000000010010100001100000101010
+
+ALU 1:
+Inputs: 
+First input: 0x40018
+Second input: 0x4
+Output: 
+Output: 0x4001c
+
+Shift left two 1:
+Input : 00010010100001100000101010
+Output: 0001001010000110000010101000
+
+Main Contral: 
+Input: opcode 000000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 01010
+  Input 1: 00011
+Output: 00011
+
+Registers memory: 
+Inputs: 
+First read register: $2
+Second read register: $10
+Write register: $3
+Write data: 0x0
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x00000005
+Second reading data: 0x00000004
+
+Sign Extend unit: 
+Input: 0001100000101010
+Output: 00000000000000000001100000101010
+
+Shift left two 2:
+Input : 00000000000000000001100000101010
+Output: 00000000000000000110000010101000
+
+ALU 2:
+Inputs: 
+First input: 0x4001c
+Second input: 0x60a8
+Output: 
+Output: 0x460c4
+
+Mux 2:
+Inputs: 
+  Input 0: 0x00000004
+  Input 1: 0x182a
+Output: 0x00000004
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x1
+ ALUOp2: 0x0
+ Function code: 101010
+Output: 0x9
+
+ALU 3:
+Inputs: 
+First input: 0x00000005
+Second input: 0x0x00000004
+Control signal: 0x9
+Output: 0x0
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x4001c
+  Input 1: 0x460c4
+Output: 0x4001c
+
+Mux 4:
+Inputs: 
+  Input 0: 0x4001c
+  Input 1: 0x12860a8
+Output: 0x4001c
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x0
+Data to write: 0x00000004
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0x0
+  Input 1: 0x00000003
+Output: 0x0
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : 00000005
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:7
+2:00000005
+3:0
+4:e65e1e87
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
+
+============================
+
+8 : slt $4, $10, $2  
+00000001010000100010000000101010
+
+==========================
+value of all control lines:
+regDst : 0x1
+jump : 0x0
+branch : 0x0
+memRead : 0x0
+memtoReg : 0x0
+ALUOp1 : 0x1
+ALUOp2 : 0x0
+memWrite : 0x0
+ALUSrc : 0x0
+regWrite : 0x1
+ALUline : 0x9
+zeroLine : 0x0
+
+==========================
+Input and output of all units:
+
+ProgramCounter :
+Input (instruction address): 0x4001c
+Output (instruction address): 0x4001c
+
+Instruction Memory:
+Input (instruction address): 0x4001c
+Output (Binary instruction): 00000001010000100010000000101010
+
+ALU 1:
+Inputs: 
+First input: 0x4001c
+Second input: 0x4
+Output: 
+Output: 0x40020
+
+Shift left two 1:
+Input : 01010000100010000000101010
+Output: 0101000010001000000010101000
+
+Main Contral: 
+Input: opcode 000000
+Ouput: please see the first 10 lines of control lines value. 
+
+Mux 1:
+Inputs: 
+  Input 0: 00010
+  Input 1: 00100
+Output: 00100
+
+Registers memory: 
+Inputs: 
+First read register: $10
+Second read register: $2
+Write register: $4
+Write data: 0x1
+Control signal (regWrite): 0x1
+Outputs: 
+First reading data: 0x00000004
+Second reading data: 0x00000005
+
+Sign Extend unit: 
+Input: 0010000000101010
+Output: 00000000000000000010000000101010
+
+Shift left two 2:
+Input : 00000000000000000010000000101010
+Output: 00000000000000001000000010101000
+
+ALU 2:
+Inputs: 
+First input: 0x40020
+Second input: 0x80a8
+Output: 
+Output: 0x480c8
+
+Mux 2:
+Inputs: 
+  Input 0: 0x00000005
+  Input 1: 0x202a
+Output: 0x00000005
+
+ALU Control: 
+Inputs: 
+ ALUOp1: 0x1
+ ALUOp2: 0x0
+ Function code: 101010
+Output: 0x9
+
+ALU 3:
+Inputs: 
+First input: 0x00000004
+Second input: 0x0x00000005
+Control signal: 0x9
+Output: 0x1
+Zero Value: 0x0
+
+Mux 5:
+Inputs: 
+  Input 0: 0x40020
+  Input 1: 0x480c8
+Output: 0x40020
+
+Mux 4:
+Inputs: 
+  Input 0: 0x40020
+  Input 1: 0x50880a8
+Output: 0x40020
+
+Data Memory: 
+Inputs: 
+Memory Address: 0x1
+Data to write: 0x00000005
+ Control Signals: 
+ MemRead: 0x0
+ MemWrite: 0x0
+ Ouput: 0x00000003
+
+Mux 3:
+Inputs: 
+  Input 0: 0x1
+  Input 1: 0x00000003
+Output: 0x1
+
+==========================
+All memory content:
+
+
+======================================
+Instruction Memmory:
+(All value in hex)
+0x40000 : 10001100101010100000000000000000 (lw $10, 0($5))
+0x40004 : 10001100110010110000000000000000 (lw $11, 0($6) )
+0x40008 : 00000001010010110000100000100000 (add $1, $10, $11)
+0x4000c : 00000001011010100001000000100010 (sub $2, $11, $10 )
+0x40010 : 00100000010000100000000000000110 (addi $2, $2, 6  )
+0x40014 : 10101100101000100000000000100000 (sw $2, 32($5))
+0x40018 : 00000000010010100001100000101010 (slt $3, $2, $10  )
+0x4001c : 00000001010000100010000000101010 (slt $4, $10, $2  )
+
+
+======================================
+Data Memmory:
+(All value in hex)
+10000000 : 58eed051
+10000004 : 305f7ea1
+10000008 : 2ec4f219
+1000000c : c57b54ba
+10000010 : e65e1e87
+10000014 : 1df23a4f
+10000018 : b90037d6
+1000001c : 63322818
+10000020 : 10916273
+10000024 : 9de6153f
+10000028 : 81fb7b82
+1000002c : ce7d0a9b
+10000030 : 9cb2a11c
+10000034 : 0ddc6522
+10000038 : 604ca9a9
+1000003c : 488a6409
+10000040 : aaa29086
+10000044 : 95ddcf94
+10000048 : 61d998ef
+1000004c : 8e9a6c56
+10000050 : fffffff6
+10000054 : fffffff7
+10000058 : fffffff8
+1000005c : fffffff9
+10000060 : fffffffa
+10000064 : fffffffb
+10000068 : fffffffc
+1000006c : fffffffd
+10000070 : fffffffe
+10000074 : ffffffff
+10000078 : 00000000
+1000007c : 00000001
+10000080 : 00000002
+10000084 : 00000003
+10000088 : 00000004
+1000008c : 00000005
+10000090 : 00000006
+10000094 : 00000007
+10000098 : 00000008
+1000009c : 00000009
+100000a0 : 0000000a
+100000a4 : ffffffff
+100000a8 : 00000005
+100000ac : 00000101
+100000b0 : 00000110
+100000b4 : 47fd7a32
+100000b8 : a5d830f9
+100000bc : 03de2ca2
+100000c0 : 6b4785df
+100000c4 : b29f9496
+100000c8 : 8c57c177
+100000cc : 6612ede8
+
+
+======================================
+Registers:
+(All value in hex)
+0:00000000
+1:7
+2:00000005
+3:0
+4:1
+5:10000088
+6:10000084
+7:10000064
+8:10916273
+9:9de6153f
+10:00000004
+11:00000003
+12:9cb2a11c
+13:0ddc6522
+14:604ca9a9
+15:488a6409
+16:aaa29086
+17:95ddcf94
+18:61d998ef
+19:8e9a6c56
+20:5a3e780f
+21:daa25db0
+22:0a031e83
+23:750773f2
+24:67745ce5
+25:9b0eae9d
+26:1ea9d4cc
+27:854a7c53
+28:70e0b33a
+29:1b128e28
+30:ea150cc4
+31:81e72593
