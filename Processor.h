@@ -27,6 +27,7 @@ class Processor{
 public:
 	Processor(){};
 
+	// Construct the Processor with correspondign parameters
 	Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers, bool _is_single_step, bool _is_debug, bool _print_memory, bool _write_to_file, string _output_file);
 
 	// The method to run the object by knowing the information in the prantecies.
