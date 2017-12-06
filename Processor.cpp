@@ -28,7 +28,7 @@ void Processor::run(){
         if(!imem.hasIns(currentInsAddress)){
             if (is_debug){
                 cout << "End of Instruction Memory" << endl;
-                cout << currentInsAddress << endl;
+                cout <<  "Current Instruction Adress: " << currentInsAddress << endl;
             }
             break;
         }
