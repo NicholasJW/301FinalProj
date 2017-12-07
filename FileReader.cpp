@@ -3,7 +3,13 @@
 #include <cctype>        // For checking for whitespace
 #include <unordered_map> // For making the hash map of settings
 
-FileReader::FileReader(string filename){ // Create the fstream with the target file (No default constructor)
+/* This class reads in a Proj2 Config File from the constructor.
+ * If the config file is improperly formatted, or the ASM doesn't compile,
+ * an exception will be thrown.
+ */
+
+// Create the fstream with the target file (No default constructor)
+FileReader::FileReader(string filename){
 
 // Debug Line
 // std::cout << "Filereader started.\n";
@@ -88,34 +94,44 @@ FileReader::FileReader(string filename){ // Create the fstream with the target f
 
 // GET SETTING METHODS
 //=========================================================================================================//
+// Returns a string containing the name of the program_input file
 string FileReader::getInstMem(){
     return imem;
 }
 
+// Returns a string containing the name of the memory_contents_input file
 string FileReader::getDataMem(){
     return dmem;
 }
 
+// Returns a string containing the name of the register_file_input file
 string FileReader::getRegFile(){
     return regf;
 }
 
+// Returns a string containing the name of the output_file
 string FileReader::getOutFile(){
     return oputf;
 }
 
+// Returns the boolean variable representing if the output mode is single
+// step or batch. If it is single_step, true is returned, else false is returned
 bool FileReader::getOutMode(){
     return is_single_step;
 }
 
+// Returns the boolean variable representing if the program is in debug mode
 bool FileReader::getDebugMode(){
     return is_debug;
 }
 
+// Returns the boolean variable representing if the program prints the
+// memory contents
 bool FileReader::getPrintMem(){
     return print_memory;
 }
 
+// Returns the boolean variable representing if the output is written to the output file
 bool FileReader::writeToFile(){
     return write_to_file;
 }

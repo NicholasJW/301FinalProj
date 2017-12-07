@@ -1,5 +1,7 @@
 #include "ProgramCounter.h"
 
+// This class sets the program counter for the processor
+
 ProgramCounter::ProgramCounter(){
     cr = "0x40000";
 }

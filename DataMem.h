@@ -10,6 +10,10 @@
 
 using namespace std;
 
+/* This class returns the value of the memory address and the data to read/write
+ * when given an input file
+ */
+
 class DataMem{
 public:
 	// Default constructor
@@ -18,12 +22,15 @@ public:
 	// Constructor that takes a file name as input and construct the DataMem 
 	DataMem(string memory_contents_input){readFile(memory_contents_input);};
 
+	// Sets up memory address and read/write data
 	void setAddress(string a){address = a;};
 	void setWriteData(string w){writeData = w;};
 	void readMem(){readData = read(address);};
 	void writeMem(){write(address, writeData);};
 
+	// Returns the value of the memory address and the data to write
 	string inputs();
+	// Returns the read data in hex
 	string outputs();
 
 	// Read corresponding content from address
@@ -36,7 +43,9 @@ public:
 	string toString();
 
 private:
-	// string fileName;
+	// testing
+	// string fileName; 
+	
 	// Inputs
 	string address;
 	string writeData;
@@ -48,6 +57,7 @@ private:
 	// Hashmap to store addresses and their contents
 	map<string, string> data;
 
+	// Method to open the memory_contents_input file
 	void readFile(string filename);
 
 	// Private helper method to remove (possible) 0x before hex

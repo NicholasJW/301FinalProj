@@ -7,7 +7,9 @@
 #include <map>
 #include <iostream>
 #include <algorithm>
-// #include <array> // Pointless to use this data structure, basic array would work
+
+/* This class returns registers read in and their values
+ */
 
 using namespace std;
 
@@ -52,9 +54,9 @@ private:
 	// Hashmap to represent the registers
 	string regs[32];
 
-	// These two should go into private but for the testing sake, i just leave them here for now
+	// Returns register number
 	string get(int num);
-
+	// Sets register number
 	void set(int num, string value);
 
 	// Initialize registers from a file

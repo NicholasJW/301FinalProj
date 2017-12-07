@@ -1,9 +1,15 @@
 #include "Registers.h"
 
+/* This class returns registers read in and their values
+ */
+
+// Default constructor
 Registers::Registers(){
 
 }
 
+
+// Reading process
 void Registers::read(){
     if (readReg1 > -1 && readReg1 < 32){
         readData1 = get(readReg1);
@@ -13,6 +19,8 @@ void Registers::read(){
     }
 }
 
+
+// Writing process
 void Registers::write(){
     if (regWrite == "0x1"){
         if (writeReg > -1 && writeReg < 32){
@@ -21,6 +29,8 @@ void Registers::write(){
     }
 }
 
+
+// Presenting inputs
 string Registers::inputs(){
     stringstream ss;
     ss << "Inputs: ";
@@ -32,6 +42,8 @@ string Registers::inputs(){
     return ss.str();
 }
 
+
+// Presenting outputs
 string Registers::outputs(){
     stringstream ss;
     ss << "Outputs: ";
@@ -40,6 +52,8 @@ string Registers::outputs(){
     return ss.str();
 }
 
+
+// Returns register number
 string Registers::get(int num){
     if(num>-1 || num<32){
         return regs[num];
@@ -48,6 +62,8 @@ string Registers::get(int num){
     }
 }
 
+
+// Sets register number
 void Registers::set(int num, string value){
     if(num>-1 || num<32){
         value = remove0x(value);
@@ -58,6 +74,8 @@ void Registers::set(int num, string value){
     }
 }
 
+
+// Prints out the registers
 string Registers::toString(){
     string s = "\n\n======================================\n";
     s += "Registers:\n(All value in hex)\n";
@@ -68,6 +86,8 @@ string Registers::toString(){
     // cout<<(sizeof(regs)/sizeof(*regs))<<endl;
 }
 
+
+// Initializes registers from an input file
 void Registers::readFile(string fileName){
     ifstream infile;
 	infile.open(fileName.c_str());
@@ -101,6 +121,8 @@ void Registers::readFile(string fileName){
 	}
 } 
 
+
+// Removes possible 0x before a hex number
 string Registers::remove0x(string str){
 	if (str.substr(0, 2) == "0x"){
 		str = str.substr(2);

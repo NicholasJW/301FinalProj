@@ -7,6 +7,10 @@
 
 using namespace std;
 
+/* Stores different MIPS instructions into a table containing the instructions'
+ * opcodes, expected operands, and other fields
+ */
+
 // Listing of all supported MIPS instructions
 enum Opcode {
   ADD, 

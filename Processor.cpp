@@ -1,5 +1,10 @@
 #include "Processor.h"
 
+/* This class connects all separate parts of the processor and inputs all of the values
+ * found in these separate parts.
+ */
+
+// Construct the Processor with corresponding parameters
 Processor::Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers, bool _is_single_step, bool _is_debug, bool _print_memory, bool _write_to_file, string _output_file){
     // Set up the corresponging parameter
     is_single_step = _is_single_step;
@@ -12,10 +17,16 @@ Processor::Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers, 
     regs = _registers;
 }
 
+
+// The method to run the object by knowing the information in the processor parts.
 void Processor::run(){
     
     initializeLines();
     int insNum = 1; //Indicating which instruction we are running
+    if(print_memory){
+        dataOutput();
+        printOut();
+    }
     string currentInsAddress;
     string currentIns;
     stringstream toHex;
@@ -34,26 +45,31 @@ void Processor::run(){
         }
         if(is_debug)
             cout << "ProgramCounter Done" << endl;
+
         // ALU 1
         alu1.setInputs(currentInsAddress, "0x4");
         alu1.calculate();
         if(is_debug)
             cout << "ALU 1" << endl;
+
         // Instruction memory
         currentIns = imem.getIns(currentInsAddress);
         if(is_debug)
             cout << "Instruction Memory Done" << endl;
+
         // SLTwo 1:
         slt1.setInput(currentIns.substr(6));
         slt1.compute();
         // cout << slt1.outputs() << endl;
         if(is_debug)
             cout << "Shift Left Two 1 Done" << endl;
+
         // Get control signals from main control
         mc.setOpcode(currentIns.substr(0,6));
         setMainSignals(mc.getControlSignals());
         if(is_debug)
             cout << "Main Control Done" << endl;
+
         // Mux 1:
         mux1.setInput0(currentIns.substr(11,5));
         // cout << "CHECK HERE " <<currentIns.substr(11,5);
@@ -61,20 +77,24 @@ void Processor::run(){
         mux1.compute(stoi(regDst.getValue().substr(2), nullptr, 16));
         if(is_debug)
             cout << "Mutiplexer 1 Done" << endl;
+
         // Read from register memory:
         regs.setRead(std::stoi(currentIns.substr(6,5), nullptr, 2), std::stoi(currentIns.substr(11,5), nullptr, 2));
         regs.read();
+
         // Sign extend
         se.setInput(currentIns.substr(16));
         se.compute();
         if(is_debug)
             cout << "Sign Extend Done" << endl;
+
         // SLTwo 2:
         slt2.setInput(se.outputs());
         slt2.compute();
         if(is_debug)
             cout << "Shift Left Two 2 Done" << endl;
         // cout << "Check" << endl;
+
         // ALU 2:
         // Get a hex str
         // cout << slt2.outputs() << endl;
@@ -90,6 +110,7 @@ void Processor::run(){
         alu2.calculate();
         if(is_debug)
             cout << "ALU 2 Done" << endl;
+
         // MUX 2:
         long mux2SecondInput = stol(se.outputs(), nullptr, 2);
         toHex.str("");
@@ -114,6 +135,7 @@ void Processor::run(){
         // cout << "Check" << endl;
         if(is_debug)
             cout << "ALU Control Done" << endl;
+
         // ALU 3:
         // cout << regs.getRead1() << "  " << regs.getRead2() << endl;
         // cout << mux2.outputs() << endl;
@@ -124,6 +146,7 @@ void Processor::run(){
         zeroLine.setValue(alu3.getZeroValue());
         if(is_debug)
             cout << "ALU 3 Done" << endl;
+
         // MUX 5:
         mux5.setInput0(alu1.getResult());
         mux5.setInput1(alu2.getResult());
@@ -135,8 +158,10 @@ void Processor::run(){
             mux5Control = 0;
         }
         mux5.compute(mux5Control);
+
         if(is_debug)
             cout << "Multiplexer 5 Done" << endl;
+
         // MUX 4:
         // Convert to binary
         toHex.str("");
@@ -160,6 +185,7 @@ void Processor::run(){
         mux4.compute(stoi(jump.getValue().substr(2), nullptr, 16));
         if(is_debug)
             cout << "Multiplexer 4 Done" << endl;
+
         // Memory
         // stringstream toHex;
         // toHex << "0x" << std::hex << alu3.getResult();
@@ -167,6 +193,7 @@ void Processor::run(){
         // cout << "ALU 3 REsult " << alu3.getResult() << endl;
         // toHex.str("");
         dmem.setWriteData("0x" + regs.getRead2());
+
         if (memRead.getValue() == "0x1"){
             dmem.readMem();
         }
@@ -175,6 +202,7 @@ void Processor::run(){
         }
         if(is_debug)
             cout << "Data Memory Done" << endl;
+
         // MUX 3
         // toHex << "0x" << std::hex << alu3.getResult();
         mux3.setInput0(alu3.getResult());
@@ -183,6 +211,7 @@ void Processor::run(){
         mux3.compute(stoi(memtoReg.getValue().substr(2), nullptr, 16));
         if(is_debug)
             cout << "Multiplexer 3 Done" << endl;
+
         // Writing back to Registers
         regs.setSignal(regWrite.getValue());
         regs.setWrite(std::stoi(mux1.outputs(), nullptr, 2), mux3.outputs());
@@ -217,9 +246,9 @@ void Processor::run(){
         // currentInsAddress += 4;
     }
 
-    ofs.close();
-     
+    ofs.close();    
 }
+
 
 // Initialize all the control lines
 void Processor::initializeLines(){
@@ -237,6 +266,7 @@ void Processor::initializeLines(){
     zeroLine.setName("zeroLine");
 }
 
+
 // Set values for main control lines
 void Processor::setMainSignals(vector<string> list){
     regDst.setValue(list.at(0));
@@ -250,6 +280,7 @@ void Processor::setMainSignals(vector<string> list){
     ALUSrc.setValue(list.at(8));
     regWrite.setValue(list.at(9));
 }
+
 
 // Out put control lines value
 void Processor::linesOutput(){
@@ -268,6 +299,7 @@ void Processor::linesOutput(){
     ss << ALUline.getName() << " : " << ALUline.getValue() << '\n';
     ss << zeroLine.getName() << " : " << zeroLine.getValue() << "\n\n";
 }
+
 
 // INput and output for each unit
 void Processor::unitOutput(){
@@ -292,6 +324,7 @@ void Processor::unitOutput(){
     ss << "Mux 3:\n" << mux3.inputs() << '\n' << "Output: "<< mux3.outputs() << "\n\n";
 }
 
+
 // Output all the memory content
 void Processor::dataOutput(){
     ss << "==========================\n";
@@ -300,6 +333,7 @@ void Processor::dataOutput(){
     ss << dmem.toString();
     ss << regs.toString();
 }
+
 
 // Actually print out or write to file
 void Processor::printOut(){

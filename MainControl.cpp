@@ -1,6 +1,10 @@
 
 #include "MainControl.h"
 
+/* This class is the main control unit, which takes a 6-bit opcode as input an
+ * output 9 control signals each of which is represented as a string.
+ */
+
 // Sets up control signal vector
 MainControl::MainControl(){
     signals.resize(10);

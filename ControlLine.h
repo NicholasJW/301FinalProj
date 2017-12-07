@@ -3,6 +3,9 @@
 
 #include<string>
 using namespace std;
+
+// This class sets the name and value of the control line
+
 class ControlLine{
 public:
     // Default constructor, set the value to 0x0, name to "control_line", length to -1

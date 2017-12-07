@@ -1,6 +1,9 @@
 #include "Instruction.h"
 
-
+/* This class provides an internal representation for a MIPS assembly instruction.
+ * Any of the fields can be queried.  Additionally, the class stores a 32 bit binary
+ * encoding of the MIPS instruction.
+ */
 
 Instruction::Instruction()
 {
@@ -8,14 +11,16 @@ Instruction::Instruction()
   myRS = myRT = myRD = NumRegisters;
 }
 
-Instruction::Instruction(Opcode op, Register rs, Register rt, Register rd, int imm)
+
 // You can specify all the fields to initialize the Instruction
+Instruction::Instruction(Opcode op, Register rs, Register rt, Register rd, int imm)
 {
   setValues(op, rs, rt, rd, imm);
 }
 
-void Instruction::setValues(Opcode op, Register rs, Register rt, Register rd, int imm)
+
 // You can specify all the fields to initialize the Instruction
+void Instruction::setValues(Opcode op, Register rs, Register rt, Register rd, int imm)
 {
 
   myOpcode = op;
@@ -36,13 +41,15 @@ void Instruction::setValues(Opcode op, Register rs, Register rt, Register rd, in
 
   myImmediate = imm;
 
+  // testing
   //  if(!( (imm & 0xFFFF0000) << 1))  // make sure it has nothing in upper 16 bits
   //    myImmediate = imm;  
 
 }
 
-string Instruction::getString()
-// Returns a string which represents all of the fields 
+
+// Returns a string which represents all of the fields
+string Instruction::getString() 
 {
   stringstream s ;
   s << "OP: \t" << myOpcode << "\t" << "RD: " << myRD << "\t" << 

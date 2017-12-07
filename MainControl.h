@@ -7,10 +7,13 @@
 
 using namespace std;
 
-// This class is the main control unit, which takes a 6-bit opcode as input and output 9 control signals each of which is represented as a string.
+/* This class is the main control unit, which takes a 6-bit opcode as input an
+ * output 9 control signals each of which is represented as a string.
+ */
+
 class MainControl{
 public:
-
+	// Sets up control signal vector
 	MainControl();
 
 	// Given an opcode input, sets 9 control signals (in hex) as strings

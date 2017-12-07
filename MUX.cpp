@@ -1,5 +1,10 @@
 #include "MUX.h"
 
+/* This class functions as a multiplexer by forwarding two input signals
+ * into a single line
+ */
+
+// Legacy functions
 // void MUX::setInput0(int _value){
 //     input0.value = _value;
 //     input0.type = 0;
@@ -10,16 +15,22 @@
 //     input1.type = 0;
 // }
 
+
+// Sets the input0 value for the MUX
 void MUX::setInput0(string _content){
     input0.content = _content;
     input0.type = 1;
 }
 
+
+// Sets the input1 value for the MUX
 void MUX::setInput1(string _content){
     input1.content = _content;
     input1.type = 1;
 }
 
+
+// Computes MUX value based on the choice on int or string
 void MUX::compute(int choose){
     stringstream out;
     if (choose == 0){
@@ -38,6 +49,8 @@ void MUX::compute(int choose){
     output = out.str();
 }
 
+
+// Legacy functions
 // string MUX::getStringOutput(int choose){
 //     outType = 1;
 //     if (choose == 0){
@@ -64,6 +77,8 @@ void MUX::compute(int choose){
 //     return -1;
 // }
 
+
+// A toString method
 string MUX::inputs(){
     stringstream toHex;
     toHex << "Inputs: ";
@@ -82,6 +97,8 @@ string MUX::inputs(){
     return toHex.str();
 }
 
+
+// A toString method
 string MUX::outputs(){
     return output;
 }

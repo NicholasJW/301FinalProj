@@ -10,7 +10,7 @@ using namespace std;
 
 /* This class reads in a Proj2 Config File from the constructor.
  * If the config file is improperly formatted, or the ASM doesn't compile,
- *   an exception will be thrown.
+ * an exception will be thrown.
  */
 
 class FileReader{
@@ -18,8 +18,6 @@ class FileReader{
         // Constructs a FileReader with the path of a config file
         // May throw an exception
         FileReader(string filename);
-
-        //Do we need to make a deconstructor to close ifstream?
 
         // Returns a string containing the name of the program_input file
         string getInstMem();

@@ -5,6 +5,8 @@
 
 using namespace std;
 
+// This class sets the program counter for the processor
+
 class ProgramCounter{
 public:
 
