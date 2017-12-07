@@ -77,7 +77,7 @@ string InstructionMem::inputs(){
 // Function to print out the whole content of instruction memory
 string InstructionMem::toString(){
     string s = "\n\n======================================\n";
-    s += "Instruction Memmory:\n(All value in hex)\n";
+    s += "Instruction Memmory:\n\n";
     for(map<string, string>::iterator it = ins.begin(); it!=ins.end();++it){
         // address  = it->first;
         // ss << std::hex << address;
