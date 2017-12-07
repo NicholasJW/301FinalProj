@@ -2,12 +2,16 @@
 
 using namespace std;
 
-OpcodeTable::OpcodeTable()
+/* Stores different MIPS instructions into a table containing the instructions'
+ * opcodes, expected operands, and other fields
+ */
+
 // Initializes all the fields for every instruction in Opcode enum
+OpcodeTable::OpcodeTable()
 {
   myArray[ADD].name = "add";  myArray[ADD].numOps = 3;   myArray[ADD].rdPos = 0;  myArray[ADD].rsPos = 1;  myArray[ADD].rtPos = 2;   myArray[ADD].immPos = -1;  myArray[ADD].instType = RTYPE; myArray[ADD].op_field = "000000"; myArray[ADD].funct_field = "100000";
  
-  //Your code here
+  //Supported MIPS instructions
   myArray[SUB].name = "sub"; myArray[SUB].numOps = 3; myArray[SUB].rdPos = 0; myArray[SUB].rsPos = 1; myArray[SUB].rtPos = 2; myArray[SUB].immPos = -1; myArray[SUB].instType = RTYPE; myArray[SUB].op_field = "000000"; myArray[SUB].funct_field = "100010";
   myArray[ADDI].name = "addi";  myArray[ADDI].numOps = 3;   myArray[ADDI].rdPos = -1;  myArray[ADDI].rsPos = 1;  myArray[ADDI].rtPos = 0;   myArray[ADDI].immPos = 2;  myArray[ADDI].instType = ITYPE; myArray[ADDI].op_field = "001000";
   myArray[MULT].name = "mult";  myArray[MULT].numOps = 2;   myArray[MULT].rdPos = -1;  myArray[MULT].rsPos = 0;  myArray[MULT].rtPos = 1;   myArray[MULT].immPos = -1;  myArray[MULT].instType = RTYPE; myArray[MULT].op_field = "000000"; myArray[MULT].funct_field = "011000"; 
@@ -21,9 +25,10 @@ OpcodeTable::OpcodeTable()
   myArray[J].name = "j";  myArray[J].numOps = 1;   myArray[J].rdPos = -1;  myArray[J].rsPos = -1;  myArray[J].rtPos = -1;   myArray[J].immPos = 0;  myArray[J].immLabel = true; myArray[J].instType = JTYPE; myArray[J].op_field = "000010";
 }
 
-Opcode OpcodeTable::getOpcode(string str)
+
 // Given a valid MIPS assembly mnemonic, returns an Opcode which represents a 
 // template for that instruction.
+Opcode OpcodeTable::getOpcode(string str)
 {
   for(int i = 0; i < (int)UNDEFINED; i++){
     if(myArray[i].name == str){
@@ -33,8 +38,9 @@ Opcode OpcodeTable::getOpcode(string str)
   return UNDEFINED;
 }
 
-int OpcodeTable::numOperands(Opcode o)
+
 // Given an Opcode, returns number of expected operands.
+int OpcodeTable::numOperands(Opcode o)
 {
   if(o < 0 || o >= UNDEFINED)
     return -1;
@@ -43,9 +49,9 @@ int OpcodeTable::numOperands(Opcode o)
 }
 
 
-int OpcodeTable::RSposition(Opcode o)
 // Given an Opcode, returns the position of RS field.  If field is not
 // appropriate for this Opcode, returns -1.
+int OpcodeTable::RSposition(Opcode o)
 {
   if(o < 0 || o >= UNDEFINED)
     return -1;
@@ -53,9 +59,10 @@ int OpcodeTable::RSposition(Opcode o)
   return myArray[o].rsPos;
 }
 
-int OpcodeTable::RTposition(Opcode o)
+
 // Given an Opcode, returns the position of RT field.  If field is not
 // appropriate for this Opcode, returns -1.
+int OpcodeTable::RTposition(Opcode o)
 {
   if(o < 0 || o >= UNDEFINED)
     return -1;
@@ -63,9 +70,10 @@ int OpcodeTable::RTposition(Opcode o)
   return myArray[o].rtPos;
 }
 
-int OpcodeTable::RDposition(Opcode o)
+
 // Given an Opcode, returns the position of RD field.  If field is not
 // appropriate for this Opcode, returns -1.
+int OpcodeTable::RDposition(Opcode o)
 {
   if(o < 0 || o >= UNDEFINED)
     return -1;
@@ -73,9 +81,10 @@ int OpcodeTable::RDposition(Opcode o)
   return myArray[o].rdPos;
 }
 
-int OpcodeTable::IMMposition(Opcode o)
+
 // Given an Opcode, returns the position of IMM field.  If field is not
 // appropriate for this Opcode, returns -1.
+int OpcodeTable::IMMposition(Opcode o)
 {
   if(o < 0 || o >= UNDEFINED)
     return -1;
@@ -83,35 +92,38 @@ int OpcodeTable::IMMposition(Opcode o)
   return myArray[o].immPos;
 }
 
-InstType OpcodeTable::getInstType(Opcode o)
+
 // Given an Opcode, returns instruction type.
+InstType OpcodeTable::getInstType(Opcode o)
 {
   if(o < 0 || o > UNDEFINED)
     return (InstType)-1;
   return myArray[o].instType;
 }
 
-string OpcodeTable::getOpcodeField(Opcode o)
+
 // Given an Opcode, returns a string representing the binary encoding of the opcode
 // field.
+string OpcodeTable::getOpcodeField(Opcode o)
 {
   if(o < 0 || o > UNDEFINED)
     return string("");
   return myArray[o].op_field;
 }
 
-string OpcodeTable::getFunctField(Opcode o)
+
 // Given an Opcode, returns a string representing the binary encoding of the function
 // field.
+string OpcodeTable::getFunctField(Opcode o)
 {
   if(o < 0 || o > UNDEFINED)
     return string("");
   return myArray[o].funct_field;
 }
 
-bool OpcodeTable::isIMMLabel(Opcode o)
 // Given an Opcode, returns true if instruction expects a label in the instruction.
 // See "J".
+bool OpcodeTable::isIMMLabel(Opcode o)
 {
   if(o < 0 || o > UNDEFINED)
     return false;

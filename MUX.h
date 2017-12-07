@@ -4,6 +4,11 @@
 #include <sstream>
 
 using namespace std;
+
+/* This class functions as a multiplexer by forwarding two input signals
+ * into a single line
+ */
+
 class MUX{
 
 struct input{
@@ -17,11 +22,18 @@ struct input{
 public:
 
 	MUX(){};
+	// testing
 	// void setInput0(int _value);
 	// void setInput1(int _value);
+
+	// Sets the input values for the MUX
 	void setInput0(string _content);
 	void setInput1(string _content);
+
+	// Computes MUX value based on the choice on int or string
 	void compute(int choose);
+
+	// testing
 	// string getStringOutput();
 	// int getIntOutput();
 
