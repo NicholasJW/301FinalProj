@@ -20,17 +20,21 @@
 #include "MainControl.h"
 #include "ALUControl.h"
 #include "SignExtend.h"
-// TODO include more classes/hearders files
 
 using namespace std;
+
+/* This class connects all separate parts of the processor and inputs all of the values
+ * found in these separate parts.
+ */
+
 class Processor{
 public:
 	Processor(){};
 
-	// Construct the Processor with correspondign parameters
+	// Construct the Processor with corresponding parameters
 	Processor(InstructionMem _iMem, DataMem _dMem, Registers _registers, bool _is_single_step, bool _is_debug, bool _print_memory, bool _write_to_file, string _output_file);
 
-	// The method to run the object by knowing the information in the prantecies.
+	// The method to run the object by knowing the information in the processor parts.
 	void run();
 
 private:

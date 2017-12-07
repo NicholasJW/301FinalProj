@@ -11,8 +11,7 @@
 using namespace std;
 
 /* This class will read in the Instruction Memory file and convert them into binary
- * line by line. All code are complete in lab 5, just take whatever we need.
- *
+ * line by line.
  */
 
 class InstructionMem{
